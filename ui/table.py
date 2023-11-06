@@ -1,5 +1,4 @@
 from rich.table import Table
-from classes.article import Article
 
 
 def createTable(
@@ -14,8 +13,10 @@ def createTable(
     for row in rows:
         table.add_row(
             row["name"],
-            row["code"],
-            row["key"] if row["is_available"] else ":x:",
+            row["code"] if "code" in row else "",
+            row["key"]
+            if "is_available" in row and row["is_available"] == True
+            else (row["key"] if "is_available" not in row else ":x:"),
         )
 
     return table

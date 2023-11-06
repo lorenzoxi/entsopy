@@ -9,51 +9,72 @@ class RequestData:
         article: Article,
         areas: list,
         time_interval: str,
-        custom_params: list,
-        default_params: list = ["documentType", "processType", "TimeInterval"],
+        contract_market_agreement: str = None,
+        direction: str = None,
+        auction_type: str = None,
         params={},
-        multiple_areas=True,
-        multiple_time_intervals=True,
-        multiple_psr_types=False,
     ):
-        self.name = article.name
-        self.code = article.code
-        self.is_available = article.is_available
-        self.document_type = article.document_type
-        self.process_type = article.process_type
-        self.key = article.key
-        self.area = article.area
-        self.time_type = article.time_type
-        self.range_limit = article.range_limit
         self.domain = article.domain
-        self.default_params = default_params
-        self.custom_params = custom_params
-        self.params = params
+        self.article = article
         self.areas = areas
-        self.time_interval = time_interval
-        self.multiple_areas = multiple_areas
-        self.multiple_time_intervals = multiple_time_intervals
-        self.multiple_psr_types = multiple_psr_types
+        self.direction = direction
+        self.params = {}
 
-        for param in self.default_params:
-            if param == "documentType":
-                self.params[param] = self.document_type
-            elif param == "processType":
-                self.params[param] = self.process_type
-            elif param == "TimeInterval":
-                self.params[param] = self.time_interval
+        for key, value in self.article.attributes.items():
+            if value != (-1) and value != 0 and value is not None:
+                self.params[key] = value
 
-    def __repr__(self) -> str:
-        return f"RequestData(name='{self.name}', code='{self.code}', is_available='{self.is_available}', document_type='{self.document_type}', process_type='{self.process_type}', key='{self.key}', area='{self.area}', time_type='{self.time_type}', range_limit='{self.range_limit}', domain='{self.domain}', default_params='{self.default_params}', custom_params='{self.custom_params}', params='{self.params}', areas='{self.areas}', multiple_areas='{self.multiple_areas}', multiple_time_intervals='{self.multiple_time_intervals}', multiple_psr_types='{self.multiple_psr_types}')"
-
-    def set_time_interval_param(self, time_interval: str):
         self.params["TimeInterval"] = time_interval
 
-    def set_custom_param(self, param: str, value: str):
+        if contract_market_agreement is not None:
+            self.params["Contract_MarketAgreement.Type"] = contract_market_agreement
+
+        if auction_type is not None:
+            self.params["Auction.Type"] = auction_type
+
+    def __repr__(self) -> str:
+        return f"RequestData(domain='{self.domain}', article='{self.article}', areas='{self.areas}', params='{self.params}')"
+
+    def set_custom_attribute(self, param: str, value: str):
         self.params[param] = value
 
-    def set_custom_param(self, value: str):
+    def set_custom_attribute_by_domain(self, value: str | dict):
         if self.domain in "generation":
-            self.params["in_Domain"] = value
+            self.params["In_Domain"] = value["code"]
         elif self.domain in "load":
-            self.params["OutBiddingZone_Domain"] = value
+            self.params["OutBiddingZone_Domain"] = value["code"]
+        elif self.domain in "transmission":
+            self.params["In_Domain"] = value["In_Domain"]
+            self.params["Out_Domain"] = value["Out_Domain"]
+            if self.article.code == "11.1.B" or self.article.code == "12.1.D":
+                self.params["In_Domain"] = value["code"]
+                self.params["Out_Domain"] = value["code"]
+            if (
+                self.article.code == "12.1.B"
+                or self.article.code == "12.1.E"
+                or self.article.code == "12.1.F"
+                or self.article.code == "12.1.G"
+            ):
+                self.params["In_Domain"] = value["In_Domain"]
+                self.params["Out_Domain"] = value["Out_Domain"]
+
+            if self.direction == "export":
+                self.params["In_Domain"] = value["Out_Domain"]
+                self.params["Out_Domain"] = value["In_Domain"]
+            elif self.direction == "import":
+                self.params["In_Domain"] = value["In_Domain"]
+                self.params["Out_Domain"] = value["Out_Domain"]
+
+            if (
+                self.article.code == "12.1.B"
+                or self.article.code == "12.1.E"
+                or self.article.code == "12.1.F"
+                or self.article.code == "12.1.G"
+            ):
+                self.params["In_Domain"] = value["In_Domain"]
+                self.params["Out_Domain"] = value["Out_Domain"]
+
+    def switch_two_params(self, key1: str, key2: str):
+        tmp = self.params[key1]
+        self.params[key1] = self.params[key2]
+        self.params[key2] = tmp

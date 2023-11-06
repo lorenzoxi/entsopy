@@ -13,7 +13,7 @@ def inputDate(
 
     date_1 = str(
         typer.prompt(
-            f"Insert the [b]start date[/b] with the format {time_type}",
+            f"Insert the start date with the format {time_type}",
         )
     ).lower()
     date_1 = datetime.datetime.strptime(date_1, f"{format}")

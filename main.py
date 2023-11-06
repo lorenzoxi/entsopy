@@ -1,35 +1,36 @@
-from classes.client import HttpsClient
+import os
+from classes.httpsclient import HttpsClient
 import typer
 from rich import print
 from rich.panel import Panel
 from rich.console import Console
 from ui.table import createTable
 import json
-from domains.domain import handle
+from domains.domain import domain as handledomain
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = typer.Typer(
-    help="""Welcome to ENTOPY your assistant for downloading data from entso-e transparency platform.""",
+    help="""Welcome to ENTSOPY your assistant for downloading data from entso-e transparency platform.""",
 )
 
 
-@app.command(help="Start entopy app")
+@app.command(help="Start Entsopy app")
 def start():
     console = Console()
     client = HttpsClient()
 
     print(
         Panel(
-            "Welcome to [cornflower_blue]ENTOPY[/cornflower_blue]: your assistant for downloading data from entso-e transparency platform.\nVisit the official entso-e website here: [link=https://transparency.entsoe.eu/]https://transparency.entsoe.eu/[/link]",
+            "Welcome to [cornflower_blue]ENTSOPY[/cornflower_blue]: your assistant for downloading data from entso-e transparency platform.\nVisit the official entso-e website here: [link=https://transparency.entsoe.eu/]https://transparency.entsoe.eu/[/link]",
             style="white",
             title="[b][cornflower_blue]ENTSOPY[/cornflower_blue][/b]",
             title_align="center",
         )
     )
 
-    f = open("./data/domains.data.json", "r")
+    f = open("./data/domains.json", "r")
     data = json.load(f)
     table = createTable(
         ["Domain", "Code", "Key to press"],
@@ -44,11 +45,8 @@ def start():
         )
     ).lower()
 
-    if domain == "1":
-        data = domain(client=client, domain=domain)
-
-    elif domain == "2":
-        data = domain(client=client, domain=domain)
+    if domain == "1" or domain == "2" or domain == "3":
+        data = handledomain(client=client, domain=domain)
 
     else:
         typer.Abort()

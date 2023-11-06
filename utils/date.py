@@ -53,7 +53,7 @@ def split_interval(interval: str) -> dict:
     dates = interval.split("/")
     date1 = datetime.datetime.strptime(dates[0], "%Y-%m-%dT%H:%MZ")
     date2 = datetime.datetime.strptime(dates[1], "%Y-%m-%dT%H:%MZ")
-    return {"begin": date1, "end": date2}
+    return date1, date2
 
 
 def get_format(time_type: str):
