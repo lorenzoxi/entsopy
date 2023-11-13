@@ -12,9 +12,7 @@ class RequestData:
         contract_market_agreement: str = None,
         direction: str = None,
         auction_type: str = None,
-        params={},
     ):
-        self.domain = article.domain
         self.article = article
         self.areas = areas
         self.direction = direction
@@ -33,46 +31,40 @@ class RequestData:
             self.params["Auction.Type"] = auction_type
 
     def __repr__(self) -> str:
-        return f"RequestData(domain='{self.domain}', article='{self.article}', areas='{self.areas}', params='{self.params}')"
+        return f"RequestData(domain='{self.article.domain}', article='{self.article}', areas='{self.areas}', params='{self.params}')"
 
     def set_custom_attribute(self, param: str, value: str):
         self.params[param] = value
 
     def set_custom_attribute_by_domain(self, value: str | dict):
-        if self.domain in "generation":
+        if self.article.domain in "generation":
             self.params["In_Domain"] = value["code"]
-        elif self.domain in "load":
+        elif self.article.domain in "load":
             self.params["OutBiddingZone_Domain"] = value["code"]
-        elif self.domain in "transmission":
-            self.params["In_Domain"] = value["In_Domain"]
-            self.params["Out_Domain"] = value["Out_Domain"]
-            if self.article.code == "11.1.B" or self.article.code == "12.1.D":
-                self.params["In_Domain"] = value["code"]
-                self.params["Out_Domain"] = value["code"]
+        elif self.article.domain in "transmission":
             if (
-                self.article.code == "12.1.B"
-                or self.article.code == "12.1.E"
-                or self.article.code == "12.1.F"
-                or self.article.code == "12.1.G"
+                self.article.attributes["In_Domain"] == 1
+                and self.article.attributes["Out_Domain"] == 1
             ):
-                self.params["In_Domain"] = value["In_Domain"]
-                self.params["Out_Domain"] = value["Out_Domain"]
+                if self.article.area == "BZNS":
+                    self.params["In_Domain"] = value["In_Domain"]
+                    self.params["Out_Domain"] = value["Out_Domain"]
+                else:
+                    self.params["In_Domain"] = value["code"]
+                    self.params["Out_Domain"] = value["code"]
 
             if self.direction == "export":
-                self.params["In_Domain"] = value["Out_Domain"]
-                self.params["Out_Domain"] = value["In_Domain"]
-            elif self.direction == "import":
-                self.params["In_Domain"] = value["In_Domain"]
-                self.params["Out_Domain"] = value["Out_Domain"]
+                self.switch_two_params("In_Domain", "Out_Domain")
 
-            if (
-                self.article.code == "12.1.B"
-                or self.article.code == "12.1.E"
-                or self.article.code == "12.1.F"
-                or self.article.code == "12.1.G"
+        elif self.article.domain in "balancing":
+            if self.article.attributes["ControlArea_Domain"] == 1:
+                self.params["ControlArea_Domain"] = value["code"]
+            elif (
+                self.article.attributes["Acquiring_Domain"] == 1
+                and self.article.attributes["Connecting_Domain"] == 1
             ):
-                self.params["In_Domain"] = value["In_Domain"]
-                self.params["Out_Domain"] = value["Out_Domain"]
+                self.params["Acquiring_Domain"] = value["Acquiring_Domain"]
+                self.params["Connecting_Domain"] = value["Connecting_Domain"]
 
     def switch_two_params(self, key1: str, key2: str):
         tmp = self.params[key1]

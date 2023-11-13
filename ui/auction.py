@@ -1,5 +1,6 @@
 import typer
-from ui.table import createTable
+from const import DIRS
+from ui.table import create_table
 from rich import print
 import json
 
@@ -10,12 +11,11 @@ def extractAuction(auctions, autcion_to_extract: str) -> str:
             return a["code"]
 
 
-def inputAuctionType() -> str:
-    element = "Direction"
-    f = open("./data/auctions.json", "r")
-    data_auctions = json.load(f)
+def input_auctiont_type() -> str:
+    element = "Auction Type"
+    data_auctions = json.load(open(DIRS["type_auctions"], "r"))
 
-    table = createTable(
+    table = create_table(
         [f"{element}", "Code", "Key"],
         title=f"Select the {element} of the data you want to download from the list below",
         rows=data_auctions,
@@ -28,4 +28,5 @@ def inputAuctionType() -> str:
         )
     ).lower()
 
-    return extractAuction(data_auctions, selectedAuction)
+    auction = extractAuction(data_auctions, selectedAuction)
+    return auction

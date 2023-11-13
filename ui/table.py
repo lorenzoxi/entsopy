@@ -1,7 +1,7 @@
 from rich.table import Table
 
 
-def createTable(
+def create_table(
     headers: list,
     title: str,
     rows: list,

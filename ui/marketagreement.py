@@ -1,9 +1,8 @@
 import typer
-from const import (
-    CONTRACT_MARKET_AGREEMENT,
-    TYPE_MARKET_AGREEMENT,
-)
-from ui.table import createTable
+from const import DIRS
+from ui.table import create_table
+from rich import print
+import json
 from rich import print
 
 
@@ -14,19 +13,18 @@ def extractMarketAgreement(agreements, agreement_to_extract: str) -> str:
             return art["code"]
 
 
-def inputMarketAgreement(isType: bool = False) -> str:
+def input_market_agreement(isType: bool = False) -> str:
     element = ""
     data = []
-    if isType == False:
-        data = CONTRACT_MARKET_AGREEMENT
-        element = "Contract Market Agreement"
-    else:
-        data = TYPE_MARKET_AGREEMENT
+    if isType == True:
+        f = open(DIRS["type_market_agreement_type"], "r")
         element = "Type Market Agreement"
+    else:
+        f = open(DIRS["type_market_agreement_contract"], "r")
+        element = "Contract Market Agreement"
+    data = json.load(f)
 
-    data
-
-    table = createTable(
+    table = create_table(
         [f"{element.capitalize()}", "Code" "Key"],
         title=f"Select the {element} of the data you want to download from the list below",
         rows=data,
@@ -38,4 +36,7 @@ def inputMarketAgreement(isType: bool = False) -> str:
             f"Insert the code of one of the {element} you want to download data from",
         )
     ).lower()
-    return extractMarketAgreement(data, selected_market_agreement)
+
+    market_agreement = extractMarketAgreement(data, selected_market_agreement)
+
+    return market_agreement

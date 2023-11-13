@@ -1,21 +1,20 @@
 from classes.request import RequestData
-from ui.inputArticle import inputArticle
-from ui.ui import UiArticle
+from ui.article import input_article
+from ui.ui import ui_article
 from utils.csv import concat_and_save_dfs
 from classes.response import ResponseData
 from classes.httpsclient import HttpsClient
 
 
 def domain(client: HttpsClient, domain: str):
-    article = inputArticle(domain=domain)
+    article = input_article(domain=domain)
     (
         areas,
         time_interval,
         contract_market_agreement,
         direction,
         auction_type,
-    ) = UiArticle(article=article)
-    # print(areas, "\n", time_interval, "\n", contract_market_agreement, "\n", direction)
+    ) = ui_article(article=article)
 
     request = RequestData(
         article=article,
@@ -27,7 +26,6 @@ def domain(client: HttpsClient, domain: str):
     )
 
     data = client.multiple_requests(request=request)
-    # print(data)
 
     res = [
         (ResponseData(content, article_code=request.article.code)).df

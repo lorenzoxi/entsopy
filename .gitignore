@@ -158,7 +158,8 @@ data/old/
 classes/old/
 tempCodeRunnerFile.py
 mock/
+old-const.py
 
 .DS_Store
 
-.VSCodeCounter/*
+.VSCodeCounter

@@ -3,7 +3,7 @@ import typer
 from utils.date import *
 
 
-def inputDate(
+def input_date(
     time_type: str,
     range="",
 ) -> datetime.datetime:

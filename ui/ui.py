@@ -1,55 +1,45 @@
-from ui.inputAuction import inputAuctionType
-from ui.inputMarketAgreement import inputMarketAgreement
+from const import DIRS
+from ui.auction import input_auctiont_type
+from ui.marketagreement import input_market_agreement
 from classes.article import Article
-from ui.inputAreas import inputAreas
-from ui.inputDate import inputDate
-from ui.inputDirection import inputDirection
+from ui.areas import input_areas
+from ui.dates import input_date
+from ui.direction import input_direction
+from rich import print
+import json
 
 
-def UiArticle(article: Article):
-    ask_contract_market_agreement = False
-    ask_auction_type = False
-    contract_market_agreement = None
-    ask_only_two_areas = False
-    direction = None
-    auction_type = None
+def ui_article(article: Article):
+    attributes = json.load(open(DIRS["type_attributes"], "r"))
+    attributes.sort(key=lambda x: x["priority"], reverse=True)
 
-    if (
-        article.domain == "transmission"
-    ):  # TODO: refactor this (see attributes of article to generate input)
-        ask_contract_market_agreement = True
-        if article.name == "Offered Capacity":
-            ask_auction_type = True
-        elif article.name == "Flow based - day ahead":
-            ask_contract_market_agreement = False
+    for attribute in attributes:
+        attribute = attribute["name"]
+        if attribute in article.attributes and article.attributes[attribute] == 1:
+            print(f"{attribute}: {article.attributes[attribute]}")
+            if attribute == "TimeInterval":
+                time_interval = input_date(article.time_type)
+            elif (
+                attribute == "OutBiddingZone_Domain"
+                or attribute == "BiddingZone_Domain"
+                or attribute == "ControlArea_Domain"
+                or attribute == "In_Domain"
+                or attribute == "Out_Domain"
+                or attribute == "Acquiring_Domain"
+                or attribute == "Connecting_Domain"
+            ):
+                areas = input_areas(article.area)
 
-        if article.code == "11.1.B":
-            ask_contract_market_agreement = False
+            elif attribute == "Contract_MarketAgreement.Type":
+                contract_market_agreement = input_market_agreement()
+                direction = input_direction()
 
-        if (
-            article.code == "12.1.B"
-            or article.code == "12.1.E"
-            or article.code == "12.1.F"
-            or article.code == "12.1.G"
-        ):
-            ask_contract_market_agreement = False
-            ask_only_two_areas = True
+            elif attribute == "Type_MarketAgreement.Type":
+                contract_market_agreement = input_market_agreement(isType=True)
 
-        if article.code == "12.1.E":
-            ask_contract_market_agreement = True
+            elif attribute == "Auction.Type":
+                auction_type = input_auctiont_type()
 
-    time_interval = inputDate(article.time_type)
+        # TODO: manage optional attributes == 0
 
-    areas = inputAreas(
-        article.area,
-        ask_only_two_areas=ask_only_two_areas,
-    )
-
-    if ask_contract_market_agreement:
-        contract_market_agreement = inputMarketAgreement()
-        direction = inputDirection()
-
-    if ask_auction_type:
-        auction_type = inputAuctionType()
-
-    return (areas, time_interval, contract_market_agreement, direction, auction_type)
+    return areas, time_interval, contract_market_agreement, direction, auction_type

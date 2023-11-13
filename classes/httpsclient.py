@@ -5,6 +5,7 @@ import urllib3
 from dataclasses import dataclass
 from classes.request import RequestData
 from classes.request import RequestData
+from const import API_ENDPOINT
 from utils.date import split_interval, get_interval, date_diff
 import os
 from dotenv import load_dotenv
@@ -20,7 +21,7 @@ class HttpsClient:
     retry_policy: urllib3.Retry
     adapter: HTTPAdapter
     security_token = os.getenv("SECURITY_TOKEN")
-    api_endpoint = os.getenv("API_ENDPOINT")
+    api_endpoint = API_ENDPOINT
 
     def __init__(self):
         self.client = requests.Session()

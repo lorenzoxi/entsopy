@@ -1,13 +1,13 @@
-import os
 from classes.httpsclient import HttpsClient
 import typer
 from rich import print
 from rich.panel import Panel
 from rich.console import Console
-from ui.table import createTable
+from ui.table import create_table
 import json
 from domains.domain import domain as handledomain
 from dotenv import load_dotenv
+from const import DIRS
 
 load_dotenv()
 
@@ -30,9 +30,8 @@ def start():
         )
     )
 
-    f = open("./data/domains.json", "r")
-    data = json.load(f)
-    table = createTable(
+    data = json.load(open(DIRS["type_domains"], "r"))
+    table = create_table(
         ["Domain", "Code", "Key to press"],
         title="Select the domain type of the data you want to download from the list below",
         rows=data,
