@@ -173,3 +173,10 @@ def get_time_data(date: datetime, resolution: int, position: int):
 
     mtu_dict["mtu.end"] = mtu_end
     return mtu_dict
+
+
+def extract_code_from_key(dict_list: [dict], key: str) -> str:
+    for d in dict_list:
+        if d["key"] == key:
+            return d["code"]
+    return ""

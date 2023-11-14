@@ -12,12 +12,15 @@ DIRS = {
     "articles_outages": "./data/articles/outages.articles.json",
     "articles_transmission": "./data/articles/transmission.articles.json",
     "type_attributes": "./data/types/attributes.json",
-    "type_auctions": "./data/types/auctions.json",
+    "type_auctions_type": "./data/types/auctions_type.json",
+    "type_auctions_category": "./data/types/auctions_category.json",
     "type_directions": "./data/types/directions.json",
     "type_domains": "./data/types/domains.json",
     "type_market_agreement_contract": "./data/types/type_market_agreement.contract.json",
     "type_market_agreement_type": "./data/types/type_market_agreement.type.json",
     "type_psrtypes": "./data/types/psrtypes.json",
+    "type_docstatus": "./data/types/docstatus.json",
+    "type_market_product": "./data/types/market_product.json",
 }
 
 API_ENDPOINT = "https://web-api.tp.entsoe.eu/api?"

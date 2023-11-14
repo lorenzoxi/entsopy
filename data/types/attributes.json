@@ -60,7 +60,11 @@
     "priority": 0
   },
   {
-    "name": "Standard_MarketProduct and Original_MarketProduct",
+    "name": "Standard_MarketProduct",
+    "priority": 5
+  },
+  {
+    "name": "Original_MarketProduct",
     "priority": 5
   },
   {

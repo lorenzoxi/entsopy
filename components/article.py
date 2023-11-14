@@ -1,9 +1,9 @@
-import typer
 from classes.article import Article
 from const import DIRS
-from ui.table import create_table
+from components.table import create_table
 from rich import print
 import json
+from rich.prompt import Prompt
 
 
 def extractArticle(articles, article_to_extract: str) -> Article:
@@ -13,6 +13,7 @@ def extractArticle(articles, article_to_extract: str) -> Article:
 
 
 def input_article(domain: str) -> Article:
+    element = "article"
     if domain == "1":
         f = open(DIRS["articles_load"], "r")
     elif domain == "2":
@@ -25,22 +26,21 @@ def input_article(domain: str) -> Article:
         f = open(DIRS["articles_balancing"], "r")
     elif domain == "6":
         f = open(DIRS["articles_outages"], "r")
-    data_articles = json.load(f)
+    data = json.load(f)
 
     table = create_table(
         ["Article", "Code", "Key"],
-        title="Select the Article of the data you want to download from the list below",
-        rows=data_articles,
+        title=f"Select the [b]{element}[/b] of the data you want to download from the list below",
+        rows=data,
     )
     print(table)
 
     selected_article = str(
-        typer.prompt(
-            "Insert the code of the Article you want to download data from",
+        Prompt.ask(
+            f"Insert the code of the [b]{element}[/b] you want to download data from\n",
+            choices=[str(x["key"]) for x in data],
         )
     ).lower()
 
-    article = extractArticle(
-        articles=data_articles, article_to_extract=selected_article
-    )
+    article = extractArticle(articles=data, article_to_extract=selected_article)
     return article

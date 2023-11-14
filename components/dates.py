@@ -1,5 +1,5 @@
 import datetime
-import typer
+from rich.prompt import Prompt
 from utils.date import *
 
 
@@ -10,17 +10,18 @@ def input_date(
     # TODO: check consistency of dates (date_1 > date_2)
 
     format = get_format(time_type)
-
+    element = "start date"
     date_1 = str(
-        typer.prompt(
-            f"Insert the start date with the format {time_type}",
+        Prompt.ask(
+            f"Insert the [b gold1]{element}[/b gold1] with the format {time_type}",
         )
     ).lower()
     date_1 = datetime.datetime.strptime(date_1, f"{format}")
 
+    element = "end date"
     date_2 = str(
-        typer.prompt(
-            f"Insert the [b]end date[/b] with the format {time_type}",
+        Prompt.ask(
+            f"Insert the [b gold1]{element}[/b gold1] with the format {time_type}",
         )
     ).lower()
     date_2 = datetime.datetime.strptime(date_2, f"{format}")

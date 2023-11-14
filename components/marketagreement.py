@@ -1,16 +1,10 @@
-import typer
+from rich.prompt import Prompt
 from const import DIRS
-from ui.table import create_table
+from components.table import create_table
 from rich import print
 import json
 from rich import print
-
-
-def extractMarketAgreement(agreements, agreement_to_extract: str) -> str:
-    for art in agreements:
-        if art["key"] == agreement_to_extract:
-            print("the code is", art["code"])
-            return art["code"]
+from utils.utils import extract_code_from_key
 
 
 def input_market_agreement(isType: bool = False) -> str:
@@ -26,17 +20,18 @@ def input_market_agreement(isType: bool = False) -> str:
 
     table = create_table(
         [f"{element.capitalize()}", "Code" "Key"],
-        title=f"Select the {element} of the data you want to download from the list below",
+        title=f"Select the [b]{element}[/b] of the data you want to download from the list below",
         rows=data,
     )
     print(table)
 
     selected_market_agreement = str(
-        typer.prompt(
-            f"Insert the code of one of the {element} you want to download data from",
+        Prompt.ask(
+            f"Insert the {element} you want to download data from\n",
+            choices=[str(x["key"]) for x in data],
         )
     ).lower()
 
-    market_agreement = extractMarketAgreement(data, selected_market_agreement)
+    market_agreement = extract_code_from_key(data, selected_market_agreement)
 
     return market_agreement

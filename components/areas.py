@@ -1,8 +1,9 @@
 import typer
 from const import DIRS
-from ui.table import create_table
+from components.table import create_table
 from rich import print
 import json
+from rich.prompt import Prompt
 
 
 def input_areas(area: str) -> str:
@@ -28,15 +29,16 @@ def input_areas(area: str) -> str:
 
     table = create_table(
         [f"{element.capitalize()}", "Code", "Key"],
-        title=f"Select the {element} of the data you want to download from the list below",
+        title=f"Select the [b]{element}[/b] of the data you want to download from the list below",
         rows=areas,
     )
     print(table)
 
     while end == False:
         key = str(
-            typer.prompt(
-                f"Insert the {element} of the data you want to download",
+            Prompt.ask(
+                f"Insert the [b gold1]{element}[/b gold1] of the data you want to download",
+                choices=[str(x["key"]) for x in areas],
             )
         ).lower()
 
@@ -46,7 +48,7 @@ def input_areas(area: str) -> str:
 
         if tmp_area:
             selectedAreas.append(tmp_area)
-            areas = [a for a in areas if a["key"] != tmp_area["key"]]
+            areas = [area for area in areas if area["key"] != tmp_area["key"]]
 
             if len(areas) > 0:
                 end = typer.confirm(f"Do you want to add another {element}?")

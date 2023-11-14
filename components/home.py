@@ -1,12 +1,12 @@
 from classes.request import RequestData
-from ui.article import input_article
-from ui.ui import ui_article
+from components.article import input_article
+from components.ui import ui_article
 from utils.csv import concat_and_save_dfs
 from classes.response import ResponseData
 from classes.httpsclient import HttpsClient
 
 
-def domain(client: HttpsClient, domain: str):
+def main_flow(client: HttpsClient, domain: str) -> bool:
     article = input_article(domain=domain)
     (
         areas,
