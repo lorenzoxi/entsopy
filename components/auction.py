@@ -3,13 +3,12 @@ from components.table import create_table
 from rich import print
 import json
 from rich.prompt import Prompt
-
 from utils.utils import extract_code_from_key
 
 
-def input_auctiont_type(isCategory: bool = False) -> str:
+def input_auction_type(is_category: bool = False) -> str:
     element = "Auction Type"
-    if isCategory == True:
+    if is_category:
         f = open(DIRS["type_auctions_type"], "r")
         element = "Auction Category"
     else:

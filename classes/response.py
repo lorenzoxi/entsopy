@@ -1,7 +1,8 @@
+import json
 import pandas as pd
-from datetime import datetime
 from dataclasses import dataclass
 from lxml import etree
+from const import DIRS
 from utils.utils import *
 
 
@@ -92,23 +93,23 @@ class ResponseData:
             self.root.find(f".//{self.ns_name}:resolution", namespaces=self.nsmap)
         ).text
 
-        time_start = (
+        initial_time_start = (
             self.root.find(
-                f".//{self.ns_name}:Period/{self.ns_name}:timeInterval/{self.ns_name}:start",
+                f".//{self.ns_name}:time_Period.timeInterval/{self.ns_name}:start",
                 namespaces=self.nsmap,
             )
         ).text
-        time_end = (
+        initial_time_end = (
             self.root.find(
                 f".//{self.ns_name}:Period/{self.ns_name}:timeInterval/{self.ns_name}:end",
                 namespaces=self.nsmap,
             )
         ).text
 
-        date_start = datetime.strptime(time_start, "%Y-%m-%dT%H:%MZ")
-        date_end = datetime.strptime(time_end, "%Y-%m-%dT%H:%MZ")
-
-        max_no_points = get_timeseries_max_no_points(date_start, date_end, resolution)
+        date_start = datetime.strptime(initial_time_start, "%Y-%m-%dT%H:%MZ")
+        date_end = datetime.strptime(initial_time_end, "%Y-%m-%dT%H:%MZ")
+        self.date_start = date_start
+        self.date_end = date_end
 
         timeseries = self.root.findall(
             f".//{self.ns_name}:TimeSeries", namespaces=self.nsmap
@@ -132,9 +133,28 @@ class ResponseData:
                 namespaces=self.nsmap,
             )
             data_mkt = get_xml_data(mkt, mkt_elements, self.nsmap, suffix="mkt")
+
+            max_no_points = max_number_of_points(period, self.nsmap)
+
             for i in range(1, max_no_points + 1):
                 data_point = {}
-                data_timing = get_time_data(date_start, resolution, position=i)
+
+                start_date, end_date = get_period_dates(period, self.nsmap)
+                if start_date != None and end_date != None:
+                    data_timing = get_time_data(
+                        date_start=start_date,
+                        date_end=end_date,
+                        resolution=resolution,
+                    )
+                else:
+                    data_timing = get_time_data(
+                        date_start=initial_time_start,
+                        date_end=(
+                            initial_time_start
+                            + get_resolution_relativedelta(resolution)
+                        ),
+                        position=i,
+                    )
                 data_point["position"] = i
                 data_point["quantity"] = get_point_quantity(period, i, self.nsmap)
                 row = {
@@ -149,6 +169,16 @@ class ResponseData:
 
         self.data = data
         self.df = pd.DataFrame(self.data)
+        self.max_no_points = max_no_points
+        self.resolution = resolution
+
+        if (
+            self.article_code == "14.1.A" or self.article_code == "16.1.B&C"
+        ):  # TODO: refactor
+            print("filling missing psr types")
+            self.fill_missing_psr_types()
+        elif self.article_code == "14.1.D":
+            self.fill_missing_psr_types(all_psr_types=["B16", "B18", "B19"])
 
     def save_to_csv(self, file_name: str, path: str = ""):
         timestamp = (datetime.now()).strftime("%Y%m%dT%H%M%S")
@@ -157,3 +187,31 @@ class ResponseData:
             index=True,
             index_label="id",
         )
+
+    def fill_missing_psr_types(
+        self,
+        all_psr_types: list = (
+            psr["code"] for psr in (json.load(open(DIRS["type_psrtypes"], "r")))
+        ),
+    ):
+        psr_type = self.df["mkt.psrType"].unique()
+
+        missing_psr_types = [psr for psr in all_psr_types if psr not in psr_type]
+
+        for i in range(1, self.max_no_points + 1):
+            for missing_psr_type in missing_psr_types:
+                new_row = self.df[:1]
+                new_row["quantity"] = "na"
+                new_row["position"] = i
+                new_row["mkt.psrType"] = missing_psr_type
+                self.df = pd.concat([self.df, new_row])
+
+                data_time = get_time_data(self.date_start, self.resolution, position=i)
+
+                for key, value in data_time.items():
+                    new_row[key] = value
+
+        if self.article_code == "14.1.A" or self.article_code == "16.1.B&C":
+            self.df = self.df.sort_values(by=["mkt.psrType"])
+
+        self.df = self.df.reset_index(drop=True)

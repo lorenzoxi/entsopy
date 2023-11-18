@@ -163,3 +163,7 @@ old-const.py
 .DS_Store
 
 .VSCodeCounter
+
+generation-*.csv
+
+.idea/

@@ -1,3 +1,5 @@
+from typing import List, Any
+
 import typer
 from const import DIRS
 from components.table import create_table
@@ -6,9 +8,9 @@ import json
 from rich.prompt import Prompt
 
 
-def input_areas(area: str) -> str:
+def input_areas(area: str) -> list[Any]:
     end = False
-    selectedAreas = []
+    selected_areas = []
     element = ""
     areas = []
 
@@ -34,7 +36,7 @@ def input_areas(area: str) -> str:
     )
     print(table)
 
-    while end == False:
+    while not end:
         key = str(
             Prompt.ask(
                 f"Insert the [b gold1]{element}[/b gold1] of the data you want to download",
@@ -47,19 +49,18 @@ def input_areas(area: str) -> str:
                 tmp_area = area
 
         if tmp_area:
-            selectedAreas.append(tmp_area)
+            selected_areas.append(tmp_area)
             areas = [area for area in areas if area["key"] != tmp_area["key"]]
 
             if len(areas) > 0:
-                end = typer.confirm(f"Do you want to add another {element}?")
+                end = not (typer.confirm(f"Do you want to add another {element}?"))
 
-                if end:
+                if not end:
                     table = create_table(
                         ["Control Area", "Code"],
                         title=f"Select one of the remaining {element} of the data you want to download from the list below",
                         rows=areas,
                     )
-                    print(table)
             else:
                 print(f"No more {element}s available !")
                 end = True
@@ -69,4 +70,4 @@ def input_areas(area: str) -> str:
                 f"[b][red]The {element} you inserted is not available![/red][b] Insert another one."
             )
 
-    return selectedAreas
+    return selected_areas

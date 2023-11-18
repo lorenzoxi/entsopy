@@ -1,5 +1,5 @@
 from const import DIRS
-from components.auction import input_auctiont_type
+from components.auction import input_auction_type
 from components.docstatus import input_docstatus
 from components.marketagreement import input_market_agreement
 from classes.article import Article
@@ -18,20 +18,19 @@ def ui_article(article: Article):
     attributes = json.load(open(DIRS["type_attributes"], "r"))
     attributes.sort(key=lambda x: x["priority"], reverse=True)
 
-    areas,
-    time_interval,
-    contract_market_agreement,
-    direction,
-    auction_type,
-    docstatus,
-    psrtype,
-    market_product,
+    areas = None
+    time_interval = None
+    contract_market_agreement = None
+    direction = None
+    auction_type = None
+    docstatus = None
+    psrtype = None
+    market_product = None
     registered_resource = None
 
     for attribute in attributes:
         attribute = attribute["name"]
         if attribute in article.attributes and article.attributes[attribute] == 1:
-            print(f"{attribute}: {article.attributes[attribute]}")
             if attribute == "TimeInterval":
                 time_interval = input_date(article.time_type)
             elif (
@@ -53,10 +52,10 @@ def ui_article(article: Article):
                 contract_market_agreement = input_market_agreement(isType=True)
 
             elif attribute == "Auction.Type":
-                auction_type = input_auctiont_type()
+                auction_type = input_auction_type()
 
             elif attribute == "Auction.Category":
-                auction_type = input_auctiont_type(isCategory=True)
+                auction_type = input_auction_type(isCategory=True)
 
             elif attribute == "DocStatus":
                 docstatus = input_docstatus()
@@ -68,7 +67,7 @@ def ui_article(article: Article):
                 market_product = input_market_product()
 
             elif attribute == "Original_MarketProduct":
-                market_product = input_market_product(isStandard=False)
+                market_product = input_market_product(is_standard=False)
 
             elif attribute == "RegisteredResource":
                 registered_resource = input_registeredsource()

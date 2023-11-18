@@ -1,20 +1,17 @@
-from rich.prompt import Prompt
 from classes.httpsclient import HttpsClient
 import typer
-from rich import print
-from rich.panel import Panel
-from rich.console import Console
+from components.panels.fail import panel_fail
+from components.panels.success import panel_success
+from components.welcome import welcome_panel
 from components.domain import input_domain
 from components.home import main_flow
 from dotenv import load_dotenv
-from components.panels.fail import panel_fail
-from components.panels.success import panel_success
-from components.welcome import welcome
+from components.welcome import welcome_panel
 
 load_dotenv()
 
 app = typer.Typer(
-    help="""Welcome to ENTSOPY your assistant for downloading data from entso-e transparency platform.""",
+    help="""Welcome to ENTSOPY your assistant for downloadcing data from entso-e transparency platform.""",
 )
 
 
@@ -22,14 +19,14 @@ app = typer.Typer(
 def start():
     client = HttpsClient()
 
-    welcome()
+    welcome_panel()
 
     domain = input_domain()
 
     res = main_flow(client=client, domain=domain)
 
     if res:
-        panel_success()
+        panel_success(file_name=res)
     else:
         panel_fail()
 

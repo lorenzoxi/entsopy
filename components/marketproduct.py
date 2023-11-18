@@ -7,10 +7,10 @@ from rich import print
 from utils.utils import extract_code_from_key
 
 
-def input_market_product(isStandard: bool = True) -> str:
+def input_market_product(is_standard: bool = True) -> str:
     element = ""
     data = []
-    if isStandard == True:
+    if is_standard:
         element = "Standard Market Product"
     else:
         element = "Original Market Product"

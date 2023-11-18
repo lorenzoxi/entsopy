@@ -6,7 +6,7 @@ import json
 from rich.prompt import Prompt
 
 
-def extractArticle(articles, article_to_extract: str) -> Article:
+def extract_article(articles, article_to_extract: str) -> Article:
     for art in articles:
         if art["key"] == article_to_extract:
             return Article(article=art)
@@ -42,5 +42,5 @@ def input_article(domain: str) -> Article:
         )
     ).lower()
 
-    article = extractArticle(articles=data, article_to_extract=selected_article)
+    article = extract_article(articles=data, article_to_extract=selected_article)
     return article

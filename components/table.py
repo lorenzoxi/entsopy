@@ -6,6 +6,10 @@ def create_table(
     title: str,
     rows: list,
 ) -> Table:
+    """
+
+    @rtype: object
+    """
     table = Table(
         *headers, expand=True, title=title, title_style="yellow bold", show_lines=True
     )

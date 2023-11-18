@@ -1,8 +1,8 @@
 from rich.prompt import Prompt
-from const import DIRS
 from components.table import create_table
 import json
 from rich import print
+from const import DIRS
 
 from utils.utils import extract_code_from_key
 

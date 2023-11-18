@@ -61,7 +61,7 @@ class HttpsClient:
                     )
                     request.set_custom_attribute("TimeInterval", tmp_time_interval)
 
-                    print(request.params)
+                    # print(request.params)
                     response = self.client.get(
                         url=self.api_endpoint, params=request.params
                     )
@@ -73,8 +73,8 @@ class HttpsClient:
         else:
             for i in request.areas:
                 request.set_custom_attribute_by_domain(i)
-                print(request.params)
+                # print(request.params)
                 response = self.client.get(url=self.api_endpoint, params=request.params)
+                print(response.history)  # i am here
                 res.append(response.content)
-
         return res

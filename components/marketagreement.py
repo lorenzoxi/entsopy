@@ -7,10 +7,10 @@ from rich import print
 from utils.utils import extract_code_from_key
 
 
-def input_market_agreement(isType: bool = False) -> str:
+def input_market_agreement(is_type: bool = False) -> str:
     element = ""
     data = []
-    if isType == True:
+    if is_type:
         f = open(DIRS["type_market_agreement_type"], "r")
         element = "Type Market Agreement"
     else:

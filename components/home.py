@@ -6,7 +6,7 @@ from classes.response import ResponseData
 from classes.httpsclient import HttpsClient
 
 
-def main_flow(client: HttpsClient, domain: str) -> bool:
+def main_flow(client: HttpsClient, domain: str) -> str:
     article = input_article(domain=domain)
     (
         areas,
@@ -14,7 +14,13 @@ def main_flow(client: HttpsClient, domain: str) -> bool:
         contract_market_agreement,
         direction,
         auction_type,
+        docstatus,
+        psrtype,
+        market_product,
+        registered_resource,
     ) = ui_article(article=article)
+
+    print("Generate the request...")
 
     request = RequestData(
         article=article,
@@ -25,13 +31,20 @@ def main_flow(client: HttpsClient, domain: str) -> bool:
         areas=areas,
     )
 
+    print("Sending the request...")
+
     data = client.multiple_requests(request=request)
+
+    print("Processing the response...")
 
     res = [
         (ResponseData(content, article_code=request.article.code)).df
         for content in data
     ]
 
-    concat_and_save_dfs(dfs=res, file_name=article.domain, suffix=article.code)
+    print("Saving the response...")
+    file_name = concat_and_save_dfs(
+        dfs=res, file_name=article.domain, suffix=article.code
+    )
 
-    return True
+    return file_name

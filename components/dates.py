@@ -5,27 +5,32 @@ from utils.date import *
 
 def input_date(
     time_type: str,
-    range="",
-) -> datetime.datetime:
-    # TODO: check consistency of dates (date_1 > date_2)
-
-    format = get_format(time_type)
+    time_range="",
+) -> str:
+    time_format = get_format(time_type)
     element = "start date"
     date_1 = str(
         Prompt.ask(
             f"Insert the [b gold1]{element}[/b gold1] with the format {time_type}",
         )
     ).lower()
-    date_1 = datetime.datetime.strptime(date_1, f"{format}")
+    date_1 = datetime.datetime.strptime(date_1, f"{time_format}")
+    date_2 = date_1 - datetime.timedelta(days=1)
 
     element = "end date"
-    date_2 = str(
-        Prompt.ask(
-            f"Insert the [b gold1]{element}[/b gold1] with the format {time_type}",
-        )
-    ).lower()
-    date_2 = datetime.datetime.strptime(date_2, f"{format}")
+    while date_2 < date_1:
+        date_2 = str(
+            Prompt.ask(
+                f"Insert the [b gold1]{element}[/b gold1] with the format {time_type}",
+            )
+        ).lower()
+        date_2 = datetime.datetime.strptime(date_2, f"{time_format}")
 
-    date = dates_interval(date_1, date_2, time_type)
+        if date_1 > date_2:
+            print(
+                f"[b red]The end date must be greater than the start date[/b red]. Please insert again the end date."
+            )
 
-    return date
+    dates_interval = calculate_dates_interval(date_1, date_2, time_type)
+    print("> the date is: ", dates_interval)
+    return dates_interval
