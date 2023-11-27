@@ -167,3 +167,6 @@ old-const.py
 generation-*.csv
 
 .idea/
+
+# poetry
+poetry.lock

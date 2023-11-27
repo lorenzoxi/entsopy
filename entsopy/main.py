@@ -5,10 +5,10 @@ from components.panels.success import panel_success
 from components.welcome import welcome_panel
 from components.domain import input_domain
 from components.home import main_flow
-from dotenv import load_dotenv
 from components.welcome import welcome_panel
+from environs import Env
 
-load_dotenv()
+env = Env()
 
 app = typer.Typer(
     help="""Welcome to ENTSOPY your assistant for downloadcing data from entso-e transparency platform.""",
@@ -17,7 +17,8 @@ app = typer.Typer(
 
 @app.command(help="Start Entsopy App")
 def start():
-    client = HttpsClient()
+    env.read_env()
+    client = HttpsClient(env.str("SECURITY_TOKEN"))
 
     welcome_panel()
 

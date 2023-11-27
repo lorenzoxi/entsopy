@@ -168,7 +168,6 @@ def max_number_of_points(period, nsmap, ns_name: str = "ns"):
     number_of_points = interval_divided_by_delta(
         start_date=start, end_date=end, rel_delta=rel_delta
     )
-    # print("no points: ", number_of_points)
     return number_of_points
 
 
@@ -214,7 +213,6 @@ def get_mtu(
 def get_time_data(
     date_start: datetime,
     date_end: datetime,
-    resolution: str,
 ) -> dict:
     mtu_start = get_mtu(
         prefix="mtu.start.",

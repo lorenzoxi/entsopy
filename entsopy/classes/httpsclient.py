@@ -7,10 +7,6 @@ from classes.request import RequestData
 from classes.request import RequestData
 from const import API_ENDPOINT
 from utils.date import split_interval, get_interval, date_diff
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 @dataclass
@@ -20,10 +16,11 @@ class HttpsClient:
     client: requests.Session
     retry_policy: urllib3.Retry
     adapter: HTTPAdapter
-    security_token = os.getenv("SECURITY_TOKEN")
+    security_token: str
     api_endpoint = API_ENDPOINT
 
-    def __init__(self):
+    def __init__(self, security_token: str):
+        self.security_token = security_token
         self.client = requests.Session()
         self.retry_policy = urllib3.Retry(connect=15, backoff_factor=0.5, total=10)
         self.adapter = HTTPAdapter(max_retries=self.retry_policy)
