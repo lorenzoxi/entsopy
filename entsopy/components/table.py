@@ -7,8 +7,16 @@ def create_table(
     rows: list,
 ) -> Table:
     """
+    Create a table with the given headers, title, and rows.
 
-    @rtype: object
+    Args:
+        headers (list): The list of column headers.
+        title (str): The title of the table.
+        rows (list): The list of rows, where each row is a dictionary.
+
+    Returns:
+        Table: The created table.
+
     """
     table = Table(
         *headers, expand=True, title=title, title_style="yellow bold", show_lines=True

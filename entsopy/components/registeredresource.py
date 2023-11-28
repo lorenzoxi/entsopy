@@ -6,6 +6,12 @@ from rich import print
 
 
 def input_registeredsource() -> str:
+    """
+    Prompts the user to input the EIC code of the Registered Resource they want to download data from.
+
+    Returns:
+        str: The EIC code of the Registered Resource.
+    """
     element = "EIC code"
     data = []
 

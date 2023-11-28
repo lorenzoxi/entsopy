@@ -7,6 +7,16 @@ from utils.utils import extract_code_from_key
 
 
 def input_auction_type(is_category: bool = False) -> str:
+    """
+    Prompts the user to select an auction type or category from a list of options.
+
+    Args:
+        is_category (bool, optional): Specifies whether the user should select an auction category instead of an auction type. Defaults to False.
+
+    Returns:
+        str: The selected auction type or category.
+    """
+
     element = "Auction Type"
     if is_category:
         f = open(DIRS["type_auctions_type"], "r")

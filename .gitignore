@@ -164,6 +164,10 @@ old-const.py
 
 .VSCodeCounter
 
-generation-*.csv
+generation-*.csv  
 
 .idea/
+
+entsopy/classes/old/
+
+*.csv

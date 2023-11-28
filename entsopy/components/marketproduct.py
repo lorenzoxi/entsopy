@@ -8,6 +8,16 @@ from utils.utils import extract_code_from_key
 
 
 def input_market_product(is_standard: bool = True) -> str:
+    """
+    Prompts the user to select a market product and returns the corresponding code.
+
+    Args:
+        is_standard (bool, optional): Specifies whether the market product is standard or original. Defaults to True.
+
+    Returns:
+        str: The code of the selected market product.
+    """
+
     element = ""
     data = []
     if is_standard:

@@ -3,6 +3,9 @@ from rich import print
 
 
 def welcome_panel() -> None:
+    """
+    Displays a welcome panel with information about ENTSOPY and a link to the official entso-e website.
+    """
     print(
         Panel(
             "Welcome to [cornflower_blue]ENTSOPY[/cornflower_blue]: your assistant for downloading data from entso-e "

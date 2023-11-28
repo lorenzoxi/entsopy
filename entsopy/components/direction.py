@@ -6,6 +6,12 @@ import json
 
 
 def input_direction() -> str:
+    """
+    Prompts the user to select a direction from a list of options and returns the selected direction.
+
+    Returns:
+        str: The selected direction.
+    """
     element = "Direction"
     data = json.load(open(DIRS["type_directions"], "r"))
 

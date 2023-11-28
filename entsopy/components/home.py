@@ -7,6 +7,17 @@ from classes.httpsclient import HttpsClient
 
 
 def main_flow(client: HttpsClient, domain: str) -> str:
+    """
+    Executes the main flow of the program.
+
+    Args:
+        client (HttpsClient): The HTTPS client used to make requests.
+        domain (str): The domain to be used for the request.
+
+    Returns:
+        str: The file name of the saved response.
+    """
+
     article = input_article(domain=domain)
     (
         areas,

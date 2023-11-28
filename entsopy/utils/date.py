@@ -3,6 +3,15 @@ from matplotlib.dates import relativedelta
 
 
 def check_date_not_tomorrow(date: datetime.datetime) -> bool:
+    """
+    Check if the given date is not tomorrow.
+
+    Args:
+        date (datetime.datetime): The date to check.
+
+    Returns:
+        bool: True if the date is not tomorrow, False otherwise.
+    """
     today = datetime.datetime.today()
     if date > today:
         return False
@@ -13,6 +22,16 @@ def check_date_not_tomorrow(date: datetime.datetime) -> bool:
 def is_dates_diff_more_than_one_year(
     date1: datetime.datetime, date2: datetime.datetime
 ) -> bool:
+    """
+    Check if the difference between two dates is more than one year.
+
+    Args:
+        date1 (datetime.datetime): The first date.
+        date2 (datetime.datetime): The second date.
+
+    Returns:
+        bool: True if the difference is more than one year, False otherwise.
+    """
     if date2 - date1 > datetime.timedelta(days=365):
         return True
     else:
@@ -22,6 +41,17 @@ def is_dates_diff_more_than_one_year(
 def calculate_dates_interval(
     date1: datetime.datetime, date2: datetime.datetime, time_type: str
 ) -> str:
+    """
+    Calculate the interval between two dates based on the given time type.
+
+    Args:
+        date1 (datetime.datetime): The first date.
+        date2 (datetime.datetime): The second date.
+        time_type (str): The type of time interval to calculate.
+
+    Returns:
+        str: The calculated time interval.
+    """
     end_interval = date2.strftime("%Y-%m-%d")
 
     if time_type == "yyyy-mm-dd":
@@ -43,6 +73,16 @@ def calculate_dates_interval(
 
 
 def get_interval(date1: datetime.datetime, date2: datetime.datetime) -> str:
+    """
+    Get the interval between two dates in a specific format.
+
+    Args:
+        date1 (datetime.datetime): The first date.
+        date2 (datetime.datetime): The second date.
+
+    Returns:
+        str: The interval between the two dates.
+    """
     tmp_date1 = date1.strftime("%Y-%m-%dT%H:%MZ")
     tmp_date2 = date2.strftime("%Y-%m-%dT%H:%MZ")
     date = f"{tmp_date1}/{tmp_date2}"
@@ -50,6 +90,15 @@ def get_interval(date1: datetime.datetime, date2: datetime.datetime) -> str:
 
 
 def split_interval(interval: str) -> tuple:
+    """
+    Split the interval string into two datetime objects.
+
+    Args:
+        interval (str): The interval string.
+
+    Returns:
+        tuple: A tuple containing the two datetime objects.
+    """
     dates = interval.split("/")
     date1 = datetime.datetime.strptime(dates[0], "%Y-%m-%dT%H:%MZ")
     date2 = datetime.datetime.strptime(dates[1], "%Y-%m-%dT%H:%MZ")
@@ -57,6 +106,15 @@ def split_interval(interval: str) -> tuple:
 
 
 def get_format(time_type: str) -> str:
+    """
+    Get the date format based on the given time type.
+
+    Args:
+        time_type (str): The type of time interval.
+
+    Returns:
+        str: The date format.
+    """
     time_format = ""
     if time_type == "yyyy-mm-dd":
         time_format = "%Y-%m-%d"
@@ -69,5 +127,15 @@ def get_format(time_type: str) -> str:
 
 
 def date_diff(date1: datetime.datetime, date2: datetime.datetime) -> int:
+    """
+    Calculate the difference in days between two dates.
+
+    Args:
+        date1 (datetime.datetime): The first date.
+        date2 (datetime.datetime): The second date.
+
+    Returns:
+        int: The difference in days.
+    """
     diff = date2 - date1
     return diff.days

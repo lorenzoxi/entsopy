@@ -3,11 +3,17 @@ from components.table import create_table
 import json
 from rich import print
 from const import DIRS
-
 from utils.utils import extract_code_from_key
 
 
 def input_psrtype() -> str:
+    """
+    Prompts the user to select a PsrType from a list of options and returns the selected PsrType.
+
+    Returns:
+        str: The selected PsrType.
+    """
+
     element = "PsrType"
     data = json.load(DIRS["type_psrtypes"], "r")
 

@@ -7,6 +7,12 @@ from utils.utils import extract_code_from_key
 
 
 def input_docstatus() -> str:
+    """
+    Prompts the user to select a document status from a list and returns the corresponding code.
+
+    Returns:
+        str: The code of the selected document status.
+    """
     element = "DocStatus"
     data = json.load(open(DIRS["type_docstatus"], "r"))
 

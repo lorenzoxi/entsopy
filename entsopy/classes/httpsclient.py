@@ -11,7 +11,22 @@ from utils.date import split_interval, get_interval, date_diff
 
 @dataclass
 class HttpsClient:
-    """Class for sending https call."""
+    """
+    A class representing an HTTPS client.
+
+    Attributes:
+        client (requests.Session): The HTTP client session.
+        retry_policy (urllib3.Retry): The retry policy for HTTP requests.
+        adapter (HTTPAdapter): The HTTP adapter for handling retries.
+        security_token (str): The security token for authentication.
+        api_endpoint (str): The API endpoint URL.
+
+    Methods:
+        __init__(self, security_token: str): Initializes the HttpsClient object.
+        get_request(self, params: dict): Sends a GET request to the API endpoint.
+        multiple_requests(self, request: RequestData) -> list: Sends multiple requests to the API endpoint.
+
+    """
 
     client: requests.Session
     retry_policy: urllib3.Retry
@@ -20,6 +35,13 @@ class HttpsClient:
     api_endpoint = API_ENDPOINT
 
     def __init__(self, security_token: str):
+        """
+        Initializes the HttpsClient object.
+
+        Args:
+            security_token (str): The security token for authentication.
+
+        """
         self.security_token = security_token
         self.client = requests.Session()
         self.retry_policy = urllib3.Retry(connect=15, backoff_factor=0.5, total=10)
@@ -32,11 +54,31 @@ class HttpsClient:
         }
 
     def get_request(self, params: dict):
+        """
+        Sends a GET request to the API endpoint.
+
+        Args:
+            params (dict): The parameters for the request.
+
+        Returns:
+            list: The response content.
+
+        """
         params["securityToken"] = self.security_token
         response = self.client.get(url=self.api_endpoint, params=params)
         return [response.content]
 
     def multiple_requests(self, request: RequestData) -> list:
+        """
+        Sends multiple requests to the API endpoint.
+
+        Args:
+            request (RequestData): The request data object.
+
+        Returns:
+            list: The response content.
+
+        """
         request.params["securityToken"] = self.security_token
         res = []
         start_date, end_date = split_interval(interval=request.params["TimeInterval"])

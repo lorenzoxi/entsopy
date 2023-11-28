@@ -8,6 +8,28 @@ from utils.utils import *
 
 @dataclass
 class ResponseData:
+    """
+    Represents a response data object.
+
+    Args:
+        content (str): The content of the response.
+        article_code (str): The article code.
+
+    Attributes:
+        root (etree.Element): The root element of the XML content.
+        article_code (str): The article code.
+        ns_name (str): The namespace name.
+        nsmap (dict): The namespace map.
+        data (list): The list of data rows.
+        df (pd.DataFrame): The data in a pandas DataFrame.
+        max_no_points (int): The maximum number of points.
+        resolution (str): The resolution of the timeserie period.
+
+    Methods:
+        save_to_csv(file_name: str, path: str = ""): Saves the data to a CSV file.
+        fill_missing_psr_types(all_psr_types: list = []): Fills missing PSR types in the data.
+    """
+
     def __init__(self, content: str, article_code: str):
         content = content
         self.root = etree.XML(content)
@@ -19,8 +41,6 @@ class ResponseData:
         period_elements = []
         mkt_elements = []
         point_elements = []
-
-        # ------------------------------------------------------
 
         tms = self.root.find(
             f".//{self.ns_name}:TimeSeries",
@@ -86,8 +106,6 @@ class ResponseData:
             self.root, document_elements, self.nsmap, suffix="document"
         )
 
-        # ------------------------------------------------------
-
         data = []
         resolution = (
             self.root.find(f".//{self.ns_name}:resolution", namespaces=self.nsmap)
@@ -144,7 +162,6 @@ class ResponseData:
                     data_timing = get_time_data(
                         date_start=start_date,
                         date_end=end_date,
-                        resolution=resolution,
                     )
                 else:
                     data_timing = get_time_data(

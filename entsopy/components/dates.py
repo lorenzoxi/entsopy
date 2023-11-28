@@ -7,6 +7,19 @@ def input_date(
     time_type: str,
     time_range="",
 ) -> str:
+    """
+    Prompts the user to input a start date and an end date with the specified time format.
+    Validates that the end date is greater than the start date.
+    Calculates the dates interval based on the input dates and time type.
+
+    Args:
+        time_type (str): The format of the dates to be inputted.
+        time_range (str, optional): The range of time for the dates. Defaults to "".
+
+    Returns:
+        str: The calculated dates interval.
+    """
+
     time_format = get_format(time_type)
     element = "start date"
     date_1 = str(

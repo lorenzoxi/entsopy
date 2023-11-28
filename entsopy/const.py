@@ -1,4 +1,6 @@
-"""This module defines project-level constants."""
+"""
+This module contains the file paths and API endpoint used in the entsopy package.
+"""
 
 DIRS = {
     "areas_control_area": "./entsopy/data/areas/controlArea.json",

@@ -15,6 +15,17 @@ from components.registeredresource import input_registeredsource
 
 
 def ui_article(article: Article):
+    """
+    Function to handle the user interface for an article.
+
+    Args:
+        article (Article): The article object.
+
+    Returns:
+        Tuple: A tuple containing the values for areas, time_interval, contract_market_agreement,
+        direction, auction_type, docstatus, psrtype, market_product, and registered_resource.
+    """
+
     attributes = json.load(open(DIRS["type_attributes"], "r"))
     attributes.sort(key=lambda x: x["priority"], reverse=True)
 

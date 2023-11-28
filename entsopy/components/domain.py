@@ -6,6 +6,13 @@ from rich import print
 
 
 def input_domain() -> str:
+    """
+    Prompts the user to select a domain from a list and returns the selected domain.
+
+    Returns:
+        str: The selected domain.
+    """
+
     element = "domain"
     data = json.load(open(DIRS["type_domains"], "r"))
 

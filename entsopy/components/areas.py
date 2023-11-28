@@ -1,5 +1,4 @@
 from typing import List, Any
-
 import typer
 from const import DIRS
 from components.table import create_table
@@ -9,6 +8,16 @@ from rich.prompt import Prompt
 
 
 def input_areas(area: str) -> list[Any]:
+    """
+    Prompts the user to input areas based on the given area type.
+
+    Args:
+        area (str): The type of area to select.
+
+    Returns:
+        list[Any]: A list of selected areas.
+
+    """
     end = False
     selected_areas = []
     element = ""

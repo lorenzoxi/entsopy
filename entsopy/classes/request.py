@@ -4,6 +4,18 @@ from classes.article import Article
 
 @dataclass
 class RequestData:
+    """
+    Represents a request data object.
+
+    Args:
+        article (Article): The article object.
+        areas (list): The list of areas.
+        time_interval (str): The time interval.
+        contract_market_agreement (str, optional): The contract market agreement. Defaults to None.
+        direction (str, optional): The direction. Defaults to None.
+        auction_type (str, optional): The auction type. Defaults to None.
+    """
+
     def __init__(
         self,
         article: Article,
@@ -34,9 +46,22 @@ class RequestData:
         return f"RequestData(domain='{self.article.domain}', article='{self.article}', areas='{self.areas}', params='{self.params}')"
 
     def set_custom_attribute(self, param: str, value: str):
+        """
+        Sets a custom attribute.
+
+        Args:
+            param (str): The parameter name.
+            value (str): The parameter value.
+        """
         self.params[param] = value
 
     def set_custom_attribute_by_domain(self, value: str | dict):
+        """
+        Sets a custom attribute based on the article domain.
+
+        Args:
+            value (str | dict): The value to set based on the article domain.
+        """
         if self.article.domain in "generation":
             self.params["In_Domain"] = value["code"]
         elif self.article.domain in "load":
@@ -67,6 +92,13 @@ class RequestData:
                 self.params["Connecting_Domain"] = value["Connecting_Domain"]
 
     def switch_two_params(self, key1: str, key2: str):
+        """
+        Switches the values of two parameters.
+
+        Args:
+            key1 (str): The first parameter key.
+            key2 (str): The second parameter key.
+        """
         tmp = self.params[key1]
         self.params[key1] = self.params[key2]
         self.params[key2] = tmp

@@ -13,6 +13,16 @@ def extract_article(articles, article_to_extract: str) -> Article:
 
 
 def input_article(domain: str) -> Article:
+    """
+    Prompts the user to select an article based on the specified domain and returns the selected article.
+
+    Args:
+        domain (str): The domain for selecting the article.
+
+    Returns:
+        Article: The selected article.
+    """
+
     element = "article"
     if domain == "1":
         f = open(DIRS["articles_load"], "r")

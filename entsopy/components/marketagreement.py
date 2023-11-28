@@ -8,6 +8,15 @@ from utils.utils import extract_code_from_key
 
 
 def input_market_agreement(is_type: bool = False) -> str:
+    """
+    Prompts the user to select a market agreement and returns the corresponding code.
+
+    Args:
+        is_type (bool, optional): Specifies whether the market agreement is of type or contract. Defaults to False.
+
+    Returns:
+        str: The code of the selected market agreement.
+    """
     element = ""
     data = []
     if is_type:
