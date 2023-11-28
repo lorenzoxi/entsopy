@@ -248,7 +248,7 @@ def interval_divided_by_delta(
     return number_of_deltas
 
 
-def get_resolution_relativedelta(resolution: str, multiplier: int = 1) -> relativedelta:
+def get_resolution_relativedelta(resolution: str, multiplier: int = 0) -> relativedelta:
     """
     Get the relative delta based on the resolution.
 
@@ -292,10 +292,11 @@ def max_number_of_points(period, nsmap, ns_name: str = "ns"):
     """
     start, end = get_period_dates(period=period, nsmap=nsmap, ns_name=ns_name)
     resolution = get_period_resolution(period=period, nsmap=nsmap, ns_name=ns_name)
-    rel_delta = get_resolution_relativedelta(resolution=resolution)
+    rel_delta = get_resolution_relativedelta(resolution=resolution, multiplier=1)
     number_of_points = interval_divided_by_delta(
         start_date=start, end_date=end, rel_delta=rel_delta
     )
+
     return number_of_points
 
 
@@ -318,26 +319,6 @@ def get_namespace_from_root(root, namespace_name: str = "ns"):
     return res
 
 
-def get_minutes_from_resolution(resolution: str) -> int:
-    """
-    Get the number of minutes from a resolution.
-
-    Args:
-        resolution (str): The resolution.
-
-    Returns:
-        int: The number of minutes.
-    """
-    minutes = 0
-    if resolution == "PT60M":
-        minutes = 60
-    elif resolution == "PT30M":
-        minutes = 30
-    elif resolution == "PT15M":
-        minutes = 15
-    return minutes
-
-
 def get_mtu(
     date: datetime,
     calculate_only_mtu: bool = False,
@@ -356,14 +337,14 @@ def get_mtu(
     """
     mtu_elements = {}
     mtu = date
-    mtu_elements[f"{prefix}mtu"] = mtu.strftime("%Y-%m-%dT%H:%MZ")
+    mtu_elements[f"mtu.{prefix}mtu"] = mtu.strftime("%Y-%m-%dT%H:%MZ")
 
-    mtu_elements[f"{prefix}year"] = mtu.year
-    mtu_elements[f"{prefix}month"] = mtu.month
-    mtu_elements[f"{prefix}day"] = mtu.day
-    mtu_elements[f"{prefix}week"] = mtu.isocalendar()[1]
-    mtu_elements[f"{prefix}hour"] = mtu.hour
-    mtu_elements[f"{prefix}minute"] = mtu.minute
+    mtu_elements[f"mtu.{prefix}year"] = f"{mtu.year}"
+    mtu_elements[f"mtu.{prefix}month"] = f"{mtu.month:02d}"
+    mtu_elements[f"mtu.{prefix}day"] = f"{mtu.day:02d}"
+    mtu_elements[f"mtu.{prefix}week"] = mtu.isocalendar()[1]
+    mtu_elements[f"mtu.{prefix}hour"] = f"{mtu.hour:02d}"
+    mtu_elements[f"mtu.{prefix}minute"] = f"{mtu.minute:02d}"
 
     if calculate_only_mtu:
         return mtu_elements[f"{prefix}mtu"]
@@ -374,6 +355,8 @@ def get_mtu(
 def get_time_data(
     date_start: datetime,
     date_end: datetime,
+    position: int,
+    resolution: str,
 ) -> dict:
     """
     Get the time data from start and end dates.
@@ -386,10 +369,21 @@ def get_time_data(
         dict: The time data.
     """
     mtu_start = get_mtu(
-        prefix="mtu.start.",
-        date=date_start,
+        prefix="start",
+        date=(
+            date_start
+            + get_resolution_relativedelta(
+                resolution=resolution, multiplier=(position - 1)
+            )
+        ),
     )
-    mtu_end = get_mtu(prefix="mtu.end.", date=date_end)
+    mtu_end = get_mtu(
+        prefix="end",
+        date=(
+            date_end
+            + get_resolution_relativedelta(resolution=resolution, multiplier=position)
+        ),
+    )
 
     mtu = {**mtu_start, **mtu_end}
     return mtu

@@ -6,7 +6,7 @@ from classes.response import ResponseData
 from classes.httpsclient import HttpsClient
 
 
-def main_flow(client: HttpsClient, domain: str) -> str:
+def home(client: HttpsClient, domain: str) -> str:
     """
     Executes the main flow of the program.
 
@@ -41,7 +41,6 @@ def main_flow(client: HttpsClient, domain: str) -> str:
         auction_type=auction_type,
         areas=areas,
     )
-
     print("Sending the request...")
 
     data = client.multiple_requests(request=request)

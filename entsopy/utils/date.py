@@ -52,22 +52,20 @@ def calculate_dates_interval(
     Returns:
         str: The calculated time interval.
     """
+    start_day = date1.strftime("%Y-%m-%d")
     end_interval = date2.strftime("%Y-%m-%d")
 
     if time_type == "yyyy-mm-dd":
-        # from 23 of the day before date1 to the 23 of the day date2
-        day_before_start = (date1 - relativedelta(days=1)).strftime("%Y-%m-%d")
         end_day = end_interval
+        time_interval = f"{start_day}T00:00Z/{end_day}T23:00Z"
 
     elif time_type == "yyyy-mm":
-        day_before_start = (date1 - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
         end_day = (date2 + relativedelta(day=31)).strftime("%Y-%m-%d")
+        time_interval = f"{start_day}T00:00Z/{end_day}T23:00Z"
 
     elif time_type == "yyyy":
-        day_before_start = (date1 - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
         end_day = (date2 + relativedelta(yearday=365)).strftime("%Y-%m-%d")
-
-    time_interval = f"{day_before_start}T23:00Z/{end_day}T23:00Z"
+        time_interval = f"{start_day}T23:00Z/{end_day}T23:00Z"
 
     return time_interval
 

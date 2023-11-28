@@ -157,21 +157,15 @@ class ResponseData:
             for i in range(1, max_no_points + 1):
                 data_point = {}
 
-                start_date, end_date = get_period_dates(period, self.nsmap)
-                if start_date != None and end_date != None:
-                    data_timing = get_time_data(
-                        date_start=start_date,
-                        date_end=end_date,
-                    )
-                else:
-                    data_timing = get_time_data(
-                        date_start=initial_time_start,
-                        date_end=(
-                            initial_time_start
-                            + get_resolution_relativedelta(resolution)
-                        ),
-                        position=i,
-                    )
+                # start_date, end_date = get_period_dates(period, self.nsmap)
+
+                data_timing = get_time_data(
+                    date_start=date_start,
+                    date_end=date_start,
+                    resolution=resolution,
+                    position=i,
+                )
+
                 data_point["position"] = i
                 data_point["quantity"] = get_point_quantity(period, i, self.nsmap)
                 row = {

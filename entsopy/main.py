@@ -1,30 +1,36 @@
+import os
 from classes.httpsclient import HttpsClient
 import typer
 from components.panels.fail import panel_fail
 from components.panels.success import panel_success
 from components.welcome import welcome_panel
 from components.domain import input_domain
-from components.home import main_flow
+from components.home import home
 from components.welcome import welcome_panel
-from environs import Env
+from dotenv import load_dotenv
+from components.securitytoken import input_security_token
 
-env = Env()
+load_dotenv()
 
 app = typer.Typer(
-    help="""Welcome to ENTSOPY your assistant for downloadcing data from entso-e transparency platform.""",
+    help="""Welcome to ENTSOPY your assistant for dowloading data from entso-e transparency platform.""",
 )
 
 
 @app.command(help="Start Entsopy App")
 def start():
-    env.read_env()
-    client = HttpsClient(env.str("SECURITY_TOKEN"))
+    token = os.getenv("SECURITY_TOKEN")
+
+    if token is None:
+        token = input_security_token()
+
+    client = HttpsClient(token)
 
     welcome_panel()
 
     domain = input_domain()
 
-    res = main_flow(client=client, domain=domain)
+    res = home(client=client, domain=domain)
 
     if res:
         panel_success(file_name=res)

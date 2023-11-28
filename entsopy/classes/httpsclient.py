@@ -112,8 +112,7 @@ class HttpsClient:
         else:
             for i in request.areas:
                 request.set_custom_attribute_by_domain(i)
-                # print(request.params)
                 response = self.client.get(url=self.api_endpoint, params=request.params)
-                print(response.history)  # i am here
+                print("url: ", response.url)
                 res.append(response.content)
         return res
