@@ -83,7 +83,7 @@
     "is_available": true,
     "key": "3",
     "area": "BZN",
-    "time_type": "yyyy-mm",
+    "time_type": "yyyy-W",
     "range_limit": 365,
     "domain": "load",
     "attributes": {

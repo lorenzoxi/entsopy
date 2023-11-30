@@ -1,6 +1,7 @@
 from classes.request import RequestData
 from components.article import input_article
 from components.ui import ui_article
+from utils.date import get_format
 from utils.csv import concat_and_save_dfs
 from classes.response import ResponseData
 from classes.httpsclient import HttpsClient

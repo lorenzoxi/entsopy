@@ -3,6 +3,7 @@ This module contains the file paths and API endpoint used in the entsopy package
 """
 
 DIRS = {
+    "log": "./entsopy/data/logs/std.log",
     "areas_control_area": "./entsopy/data/areas/controlArea.json",
     "areas_bidding_zone": "./entsopy/data/areas/biddingZone.json",
     "areas_border_bidding_zone": "./entsopy/data/areas/borderBiddingZone.json",

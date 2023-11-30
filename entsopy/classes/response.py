@@ -217,7 +217,12 @@ class ResponseData:
                 new_row["mkt.psrType"] = missing_psr_type
                 self.df = pd.concat([self.df, new_row])
 
-                data_time = get_time_data(self.date_start, position=i)
+                data_time = get_time_data(
+                    self.date_start,
+                    self.date_start,
+                    position=i,
+                    resolution=self.resolution,
+                )
 
                 for key, value in data_time.items():
                     new_row[key] = value

@@ -9,6 +9,10 @@ from components.home import home
 from components.welcome import welcome_panel
 from dotenv import load_dotenv
 from components.securitytoken import input_security_token
+from components.logging.logtable import logtable
+from const import DIRS
+from logger.logger import LOGGER
+import sys, traceback
 
 load_dotenv()
 
@@ -19,24 +23,45 @@ app = typer.Typer(
 
 @app.command(help="Start Entsopy App")
 def start():
-    token = os.getenv("SECURITY_TOKEN")
+    try:
+        token = os.getenv("SECURITY_TOKEN")
 
-    if token is None:
-        token = input_security_token()
+        if token is None:
+            token = input_security_token()
 
-    client = HttpsClient(token)
+        client = HttpsClient(token)
 
-    welcome_panel()
+        welcome_panel()
 
-    domain = input_domain()
+        domain = input_domain()
 
-    res = home(client=client, domain=domain)
+        res = home(client=client, domain=domain)
 
-    if res:
-        panel_success(file_name=res)
-    else:
-        panel_fail()
+        if res:
+            panel_success(file_name=res)
+        else:
+            panel_fail()
+
+    except Exception as e:
+        panel_fail("Error!", f"{e}. Traceback: {traceback.format_exc()}")
+        LOGGER.info(f"ERROR: {e}.\nTraceback: {traceback.format_exc()}")
+
+
+@app.command("reset", help="Reset the security token and clear the log file.")
+def reset():
+    input_security_token()
+    open(DIRS["log"], "w").close()
+    panel_success("Security token successfully replaced and log file cleared.")
+
+
+@app.command("log", help="Show logs of the app")
+def log(command: str):
+    if command == "clear":
+        open(DIRS["log"], "w").close()
+        panel_success("Log file cleared")
+    elif command == "show":
+        logtable("log")
 
 
 if __name__ == "__main__":
-    app()
+    app(["start"])

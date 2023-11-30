@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-from dateutil.parser import parse
+from dateutil.relativedelta import relativedelta, SU
+from utils.date import count_weeks, get_week_boundrais
 
 
 def sanitize_from_urn(tag: str) -> str:
@@ -224,31 +224,26 @@ def get_period_resolution(period, nsmap, ns_name: str = "ns"):
 
 
 def interval_divided_by_delta(
-    start_date: datetime, end_date: datetime, rel_delta: relativedelta
+    start_date: datetime, end_date: datetime, resolution: str
 ):
-    """
-    Calculate the number of deltas between two dates.
-
-    Args:
-        start_date (datetime): The start date.
-        end_date (datetime): The end date.
-        rel_delta (relativedelta): The relative delta.
-
-    Returns:
-        int: The number of deltas.
-    """
     current_time = start_date
     number_of_deltas = 0
 
+    if resolution == "P7D":
+        return count_weeks(start_date, end_date)
+
     while current_time < end_date:
-        current_time = current_time + rel_delta
+        current_time = current_time + get_resolution_relativedelta(
+            resolution=resolution, multiplier=1, date=current_time
+        )
         number_of_deltas += 1
-        # print(type(current_time), type(rel_delta))
 
     return number_of_deltas
 
 
-def get_resolution_relativedelta(resolution: str, multiplier: int = 0) -> relativedelta:
+def get_resolution_relativedelta(
+    resolution: str, multiplier: int = 0, date: datetime = None
+) -> relativedelta | int:
     """
     Get the relative delta based on the resolution.
 
@@ -265,11 +260,11 @@ def get_resolution_relativedelta(resolution: str, multiplier: int = 0) -> relati
     elif resolution == "PT1M":
         rel_delta = relativedelta(months=(1 * multiplier))
     elif resolution == "P7D":
-        rel_delta = relativedelta(days=(7 * multiplier))
+        rel_delta = date.isocalendar()[1]
     elif resolution == "P1D":
         rel_delta = relativedelta(days=(1 * multiplier))
     elif resolution == "PT60M":
-        rel_delta = relativedelta(minutes=(60 * multiplier))
+        rel_delta = relativedelta(minutes=(60 * (multiplier + 1)))
     elif resolution == "PT30M":
         rel_delta = relativedelta(minutes=(30 * multiplier))
     elif resolution == "PT15M":
@@ -292,9 +287,8 @@ def max_number_of_points(period, nsmap, ns_name: str = "ns"):
     """
     start, end = get_period_dates(period=period, nsmap=nsmap, ns_name=ns_name)
     resolution = get_period_resolution(period=period, nsmap=nsmap, ns_name=ns_name)
-    rel_delta = get_resolution_relativedelta(resolution=resolution, multiplier=1)
     number_of_points = interval_divided_by_delta(
-        start_date=start, end_date=end, rel_delta=rel_delta
+        start_date=start, end_date=end, resolution=resolution
     )
 
     return number_of_points
@@ -336,6 +330,7 @@ def get_mtu(
         str | dict: The MTU as a string or a dictionary of MTU elements.
     """
     mtu_elements = {}
+    # stringify mtu
     mtu = date
     mtu_elements[f"mtu.{prefix}mtu"] = mtu.strftime("%Y-%m-%dT%H:%MZ")
 
@@ -368,22 +363,31 @@ def get_time_data(
     Returns:
         dict: The time data.
     """
-    mtu_start = get_mtu(
-        prefix="start",
-        date=(
-            date_start
-            + get_resolution_relativedelta(
-                resolution=resolution, multiplier=(position - 1)
-            )
-        ),
-    )
-    mtu_end = get_mtu(
-        prefix="end",
-        date=(
-            date_end
-            + get_resolution_relativedelta(resolution=resolution, multiplier=position)
-        ),
-    )
+
+    if resolution == "P7D":
+        date_start, date_end = get_week_boundrais(date_start, position)
+        mtu_start = get_mtu(prefix="start", date=date_start)
+        mtu_end = get_mtu(prefix="end", date=date_end)
+
+    else:
+        mtu_start = get_mtu(
+            prefix="start",
+            date=(
+                date_start
+                + get_resolution_relativedelta(
+                    resolution=resolution, multiplier=(position - 1), date=date_start
+                )
+            ),
+        )
+        mtu_end = get_mtu(
+            prefix="end",
+            date=(
+                date_end
+                + get_resolution_relativedelta(
+                    resolution=resolution, multiplier=position, date=date_end
+                )
+            ),
+        )
 
     mtu = {**mtu_start, **mtu_end}
     return mtu

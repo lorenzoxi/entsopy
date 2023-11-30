@@ -1,5 +1,4 @@
 from rich.panel import Panel
-from const import DIRS
 from rich import print
 
 
@@ -20,8 +19,10 @@ def panel_fail(
 
     print(
         Panel(
-            f"[b][red]{message}[/red][/b]\n. Error: {error_description}.",
+            f"[b][red]{message}...[/red][/b]\nError: {error_description}.",
+            title="[b][red]FATAL ERROR![/red][/b]",
             highlight=True,
+            title_align="center",
         )
     )
     return

@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from classes.request import RequestData
 from classes.request import RequestData
 from const import API_ENDPOINT
+from logger.logger import LOGGER
 from utils.date import split_interval, get_interval, date_diff
 
 
@@ -66,6 +67,7 @@ class HttpsClient:
         """
         params["securityToken"] = self.security_token
         response = self.client.get(url=self.api_endpoint, params=params)
+        LOGGER.info(f"GET: {response.url}")
         return [response.content]
 
     def multiple_requests(self, request: RequestData) -> list:
@@ -104,6 +106,7 @@ class HttpsClient:
                     response = self.client.get(
                         url=self.api_endpoint, params=request.params
                     )
+                    LOGGER.info(f"MULTI-GET: {response.url}")
                     res.append(response.content)
 
                 start_date += delta
@@ -113,6 +116,6 @@ class HttpsClient:
             for i in request.areas:
                 request.set_custom_attribute_by_domain(i)
                 response = self.client.get(url=self.api_endpoint, params=request.params)
-                print("url: ", response.url)
+                LOGGER.info(f"GET: {response.url}")
                 res.append(response.content)
         return res

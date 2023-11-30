@@ -171,3 +171,13 @@ generation-*.csv
 entsopy/classes/old/
 
 *.csv
+
+.vscode/
+
+data/old/
+
+*.log
+
+*.xml
+
+*draft.py

@@ -27,8 +27,16 @@ def input_date(
             f"Insert the [b gold1]{element}[/b gold1] with the format {time_type}",
         )
     ).lower()
+
+    if time_format == "%Y-%W":
+        time_format = "%Y-%W-%w"
+        date_1 = date_1 + "-1"
+
     date_1 = datetime.datetime.strptime(date_1, f"{time_format}")
     date_2 = date_1 - datetime.timedelta(days=1)
+
+    if time_format == "%Y-%W-%w":
+        time_format = "%Y-%W"
 
     element = "end date"
     while date_2 < date_1:
@@ -37,6 +45,10 @@ def input_date(
                 f"Insert the [b gold1]{element}[/b gold1] with the format {time_type}",
             )
         ).lower()
+        if time_format == "%Y-%W":
+            time_format = "%Y-%W-%w"
+            date_2 = date_2 + "-0"
+
         date_2 = datetime.datetime.strptime(date_2, f"{time_format}")
 
         if date_1 > date_2:
