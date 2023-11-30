@@ -64,4 +64,4 @@ def log(command: str):
 
 
 if __name__ == "__main__":
-    app(["start"])
+    app()
