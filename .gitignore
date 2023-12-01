@@ -181,3 +181,9 @@ data/old/
 *.xml
 
 *draft.py
+
+# sphinx documentation
+./docs/_build/
+./docs/source/*
+./docs/make.bat
+./docs/Makefile

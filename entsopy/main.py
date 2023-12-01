@@ -14,6 +14,8 @@ from const import DIRS
 from logger.logger import LOGGER
 import sys, traceback
 
+""" Main module of the app. """
+
 load_dotenv()
 
 app = typer.Typer(
