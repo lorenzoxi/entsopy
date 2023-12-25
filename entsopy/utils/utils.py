@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
+import re
+import sys
 from dateutil.relativedelta import relativedelta, SU
-from utils.date import count_weeks, get_week_boundrais
+from entsopy.utils.date import count_weeks, get_week_boundrais
 
 
 def sanitize_from_urn(tag: str) -> str:
@@ -187,16 +189,12 @@ def get_period_dates(period, nsmap, ns_name: str = "ns") -> tuple:
     Returns:
         tuple: The start and end dates of the period.
     """
-    start = None
-    end = None
-    t_start = period.find(f".//{ns_name}:start", namespaces=nsmap)
-    t_end = period.find(f".//{ns_name}:end", namespaces=nsmap)
 
-    if t_start != None:
-        start = t_start.text
+    if period == None:
+        print("Period is None")
 
-    if t_end != None:
-        end = t_end.text
+    start = period.findtext(f".//{ns_name}:start", namespaces=nsmap)
+    end = period.findtext(f".//{ns_name}:end", namespaces=nsmap)
 
     start_date = datetime.strptime(start, "%Y-%m-%dT%H:%MZ")
     end_date = datetime.strptime(end, "%Y-%m-%dT%H:%MZ")
@@ -273,7 +271,7 @@ def get_resolution_relativedelta(
     return rel_delta
 
 
-def max_number_of_points(period, nsmap, ns_name: str = "ns"):
+def max_number_of_points(period, resolution, nsmap, ns_name: str = "ns"):
     """
     Get the maximum number of points in a period.
 
@@ -286,7 +284,6 @@ def max_number_of_points(period, nsmap, ns_name: str = "ns"):
         int: The maximum number of points.
     """
     start, end = get_period_dates(period=period, nsmap=nsmap, ns_name=ns_name)
-    resolution = get_period_resolution(period=period, nsmap=nsmap, ns_name=ns_name)
     number_of_points = interval_divided_by_delta(
         start_date=start, end_date=end, resolution=resolution
     )
@@ -408,3 +405,42 @@ def extract_code_from_key(dict_list: [dict], key: str) -> str:
         if d["key"] == key:
             return d["code"]
     return ""
+
+
+def extract_elements_from_node(node, to_exclude=[], prefix="doc"):
+    tags_to_exclude = to_exclude
+    data = {}
+    if node.getchildren() == []:
+        key = prefix + "." + sanitize_from_urn(node.tag)
+        data[key] = node.text
+    else:
+        for child in node.xpath(".//*"):
+            tag = sanitize_from_urn(child.tag).strip()
+            parent_tag = ""
+            grandparent_tag = ""
+
+            parent = child.getparent()
+            grandparent = parent.getparent() if parent != None else None
+
+            if parent:
+                parent_tag = sanitize_from_urn(parent.tag).strip()
+
+            if parent and grandparent:
+                grandparent_tag = sanitize_from_urn(grandparent.tag).strip()
+
+            if (
+                tag not in tags_to_exclude
+                and parent_tag not in tags_to_exclude
+                and grandparent_tag not in tags_to_exclude
+            ):
+                if child.getchildren() == []:
+                    key = prefix + "." + parent_tag + "." + tag
+                    data[key] = child.text
+            else:
+                pass
+    return data
+
+
+def is_debug_active() -> bool:
+    """Return if the debugger is currently active"""
+    return hasattr(sys, "gettrace") and sys.gettrace() is not None

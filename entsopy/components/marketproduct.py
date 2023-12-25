@@ -1,10 +1,10 @@
 from rich.prompt import Prompt
-from const import DIRS
-from components.table import create_table
+from entsopy.utils.const import *
+from entsopy.components.table import create_table
 from rich import print
 import json
 from rich import print
-from utils.utils import extract_code_from_key
+from entsopy.utils.utils import extract_code_from_key
 
 
 def input_market_product(is_standard: bool = True) -> str:

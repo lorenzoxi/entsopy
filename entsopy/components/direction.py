@@ -1,6 +1,6 @@
 from rich.prompt import Prompt
-from const import DIRS
-from components.table import create_table
+from entsopy.utils.const import *
+from entsopy.components.table import create_table
 from rich import print
 import json
 

@@ -1,12 +1,10 @@
 [tool.poetry]
 name = "entsopy"
 version = "0.1.0"
-description = "Cli tools for ENTSO-e data retrival"
-authors = ["Your Name <you@example.com>"]
+description = "Cli tool for downloading data from ENTSO-E."
+authors = ["Lorenzo Perinello <lorenzo.perinello@studenti.it>"]
 readme = "README.md"
-
-[tool.poetry.scripts]
-quizli = "entsopy.main:app"
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -21,3 +19,6 @@ python-dotenv = "^1.0.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+entsopy = "entsopy.main:app"

@@ -1,11 +1,10 @@
 import datetime
 from rich.prompt import Prompt
-from utils.date import *
+from entsopy.utils.date import *
 
 
 def input_date(
     time_type: str,
-    time_range="",
 ) -> str:
     """
     Prompts the user to input a start date and an end date with the specified time format.
@@ -57,5 +56,4 @@ def input_date(
             )
 
     dates_interval = calculate_dates_interval(date_1, date_2, time_type)
-    print("> the date is: ", dates_interval)
     return dates_interval

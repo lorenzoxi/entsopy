@@ -1,22 +1,23 @@
 import os
-from classes.httpsclient import HttpsClient
 import typer
-from components.panels.fail import panel_fail
-from components.panels.success import panel_success
-from components.welcome import welcome_panel
-from components.domain import input_domain
-from components.home import home
-from components.welcome import welcome_panel
-from dotenv import load_dotenv
-from components.securitytoken import input_security_token
-from components.logging.logtable import logtable
-from const import DIRS
-from logger.logger import LOGGER
-import sys, traceback
+from entsopy.components.panels.fail import panel_fail
+from entsopy.components.panels.success import panel_success
+from entsopy.components.welcome import welcome_panel
+from entsopy.components.domain import input_domain
+from entsopy.components.home import home
+from entsopy.components.welcome import welcome_panel
+import dotenv
+from entsopy.components.securitytoken import input_security_token
+from entsopy.components.logging.logtable import logtable
+from entsopy.utils.const import *
+from entsopy.components.downloaddirectory import input_download_directory
+from entsopy.utils.utils import is_debug_active
+from entsopy.logger.logger import LOGGER
+from entsopy.classes.httpsclient import HttpsClient
+import traceback
 
 """ Main module of the app. """
 
-load_dotenv()
 
 app = typer.Typer(
     help="""Welcome to ENTSOPY your assistant for dowloading data from entso-e transparency platform.""",
@@ -26,10 +27,23 @@ app = typer.Typer(
 @app.command(help="Start Entsopy App")
 def start():
     try:
-        token = os.getenv("SECURITY_TOKEN")
+        dotenv_file = dotenv.find_dotenv()
+        dotenv.load_dotenv(dotenv_file)
+
+        token = os.environ["SECURITY_TOKEN"] if "SECURITY_TOKEN" in os.environ else None
+        download_dir = (
+            os.environ["DOWNLOAD_DIR"] if "DOWNLOAD_DIR" in os.environ else None
+        )
 
         if token is None:
             token = input_security_token()
+            os.environ["SECURITY_TOKEN"] = f"${token}"
+            dotenv.set_key(dotenv_file, "SECURITY_TOKEN", os.environ["SECURITY_TOKEN"])
+
+        if download_dir is None:
+            download_dir = input_download_directory()
+            os.environ["DOWNLOAD_DIR"] = f"{download_dir}"
+            dotenv.set_key(dotenv_file, "DOWNLOAD_DIR", os.environ["DOWNLOAD_DIR"])
 
         client = HttpsClient(token)
 
@@ -37,7 +51,7 @@ def start():
 
         domain = input_domain()
 
-        res = home(client=client, domain=domain)
+        res = home(client=client, domain=domain, download_dir=download_dir)
 
         if res:
             panel_success(file_name=res)
@@ -45,15 +59,26 @@ def start():
             panel_fail()
 
     except Exception as e:
-        panel_fail("Error!", f"{e}. Traceback: {traceback.format_exc()}")
+        panel_fail("Error!", f"{e}.")
         LOGGER.info(f"ERROR: {e}.\nTraceback: {traceback.format_exc()}")
 
 
-@app.command("reset", help="Reset the security token and clear the log file.")
-def reset():
-    input_security_token()
-    open(DIRS["log"], "w").close()
-    panel_success("Security token successfully replaced and log file cleared.")
+@app.command(
+    "reset",
+    help="Reset the security token, target download directory or clear the log file.",
+)
+def reset(command: str = ""):
+    if command == "security-token" or command == "all":
+        input_security_token()
+        panel_success("Security token successfully replaced and log file cleared.")
+    elif command == "download-dir" or command == "all":
+        os.environ["DOWNLOAD_DIR"] = ""
+        panel_success("Download directory successfully reset.")
+    elif command == "log" or command == "all":
+        open(DIRS["log"], "w").close()
+        panel_success("Log file succesfully cleared")
+    else:
+        panel_fail("Command not recognized. Type reset --help for more info.")
 
 
 @app.command("log", help="Show logs of the app")
@@ -66,4 +91,7 @@ def log(command: str):
 
 
 if __name__ == "__main__":
-    app()
+    if is_debug_active():
+        typer.run(start)
+    else:
+        app()

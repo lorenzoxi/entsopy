@@ -1,5 +1,5 @@
 from rich.panel import Panel
-from const import DIRS
+from entsopy.utils.const import *
 from rich import print
 
 

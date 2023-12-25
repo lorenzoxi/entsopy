@@ -3,11 +3,11 @@ import requests
 from requests.adapters import HTTPAdapter
 import urllib3
 from dataclasses import dataclass
-from classes.request import RequestData
-from classes.request import RequestData
-from const import API_ENDPOINT
-from logger.logger import LOGGER
-from utils.date import split_interval, get_interval, date_diff
+from entsopy.classes.request import RequestData
+from entsopy.classes.request import RequestData
+from entsopy.utils.const import API_ENDPOINT
+from entsopy.logger.logger import LOGGER
+from entsopy.utils.date import split_interval, get_interval, date_diff
 
 
 @dataclass

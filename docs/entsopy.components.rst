@@ -11,6 +11,7 @@ components.areas module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.article module
 ---------------------------------
@@ -19,6 +20,7 @@ components.article module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.auction module
 ---------------------------------
@@ -27,6 +29,7 @@ components.auction module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.dates module
 -------------------------------
@@ -35,6 +38,7 @@ components.dates module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.direction module
 -----------------------------------
@@ -43,6 +47,7 @@ components.direction module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.docstatus module
 -----------------------------------
@@ -51,6 +56,7 @@ components.docstatus module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.domain module
 --------------------------------
@@ -59,6 +65,7 @@ components.domain module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.home module
 ------------------------------
@@ -67,6 +74,7 @@ components.home module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.marketagreement module
 -----------------------------------------
@@ -75,6 +83,7 @@ components.marketagreement module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.marketproduct module
 ---------------------------------------
@@ -83,6 +92,7 @@ components.marketproduct module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.psrtype module
 ---------------------------------
@@ -91,6 +101,7 @@ components.psrtype module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.registeredresource module
 --------------------------------------------
@@ -99,6 +110,7 @@ components.registeredresource module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.securitytoken module
 ---------------------------------------
@@ -107,6 +119,7 @@ components.securitytoken module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.table module
 -------------------------------
@@ -115,6 +128,7 @@ components.table module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.ui module
 ----------------------------
@@ -123,6 +137,7 @@ components.ui module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 components.welcome module
 ---------------------------------
@@ -131,6 +146,7 @@ components.welcome module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 Module contents
 ---------------
@@ -139,3 +155,4 @@ Module contents
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 

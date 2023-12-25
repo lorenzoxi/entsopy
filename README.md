@@ -1,19 +1,7 @@
 # entsopy
 
-Your cli tool for **download energy data** from ENTSO-E transparency platform.
-
-## Instructions
-
+Your cli tool for **download data from the** from ENTSO-E transparency platform.
 **Please note that a security token is mandatory for accessing the ENTSO-E API service.**
-
-- For starting the cli tools open a terminal, go to the project main directory and input:  `python entsopy/main.py start`
-- For viewing the logs: `python entsopy/main.py reset`
-- For resetting the security token: `python entsopy/main.py reset`
-- For visualizing the helping panel:`python entsopy/main.py --help`
-
-## Documentation
-
-Please, see the comments on the code.
 
 ## Useful links
 

@@ -1,17 +1,17 @@
-from const import DIRS
-from components.auction import input_auction_type
-from components.docstatus import input_docstatus
-from components.marketagreement import input_market_agreement
-from classes.article import Article
-from components.areas import input_areas
-from components.dates import input_date
-from components.direction import input_direction
+from entsopy.utils.const import *
+from entsopy.components.auction import input_auction_type
+from entsopy.components.docstatus import input_docstatus
+from entsopy.components.marketagreement import input_market_agreement
+from entsopy.classes.article import Article
+from entsopy.components.areas import input_areas
+from entsopy.components.dates import input_date
+from entsopy.components.direction import input_direction
 from rich import print
 import json
-from components.marketproduct import input_market_product
+from entsopy.components.marketproduct import input_market_product
 
-from components.psrtype import input_psrtype
-from components.registeredresource import input_registeredsource
+from entsopy.components.psrtype import input_psrtype
+from entsopy.components.registeredresource import input_registeredsource
 
 
 def ui_article(article: Article):

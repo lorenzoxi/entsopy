@@ -19,6 +19,7 @@ utils.date module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 utils.utils module
 --------------------------
@@ -27,6 +28,7 @@ utils.utils module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 Module contents
 ---------------

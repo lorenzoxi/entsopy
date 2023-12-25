@@ -1,13 +1,13 @@
-from classes.request import RequestData
-from components.article import input_article
-from components.ui import ui_article
-from utils.date import get_format
-from utils.csv import concat_and_save_dfs
-from classes.response import ResponseData
-from classes.httpsclient import HttpsClient
+from entsopy.classes.request import RequestData
+from entsopy.components.article import input_article
+from entsopy.components.ui import ui_article
+from entsopy.utils.csv import concat_and_save_dfs
+from entsopy.classes.response import ResponseData
+from entsopy.classes.httpsclient import HttpsClient
+from rich import print
 
 
-def home(client: HttpsClient, domain: str) -> str:
+def home(client: HttpsClient, domain: str, download_dir: str) -> str:
     """
     Executes the main flow of the program.
 
@@ -32,7 +32,7 @@ def home(client: HttpsClient, domain: str) -> str:
         registered_resource,
     ) = ui_article(article=article)
 
-    print("Generate the request...")
+    print("[i]Generate the request...[/i]")
 
     request = RequestData(
         article=article,
@@ -42,20 +42,23 @@ def home(client: HttpsClient, domain: str) -> str:
         auction_type=auction_type,
         areas=areas,
     )
-    print("Sending the request...")
+    print("[i]Sending the request...[/i]")
 
     data = client.multiple_requests(request=request)
 
-    print("Processing the response...")
+    print("[i]Processing the response...[/i]")
 
     res = [
         (ResponseData(content, article_code=request.article.code)).df
         for content in data
     ]
 
-    print("Saving the response...")
+    print("[i]Saving the response file...[/i]")
     file_name = concat_and_save_dfs(
-        dfs=res, file_name=article.domain, suffix=article.code
+        dfs=res,
+        file_name=article.domain,
+        suffix=article.code,
+        download_dir=download_dir,
     )
 
     return file_name

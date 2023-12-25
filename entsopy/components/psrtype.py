@@ -1,9 +1,9 @@
 from rich.prompt import Prompt
-from components.table import create_table
+from entsopy.components.table import create_table
 import json
 from rich import print
-from const import DIRS
-from utils.utils import extract_code_from_key
+from entsopy.utils.const import *
+from entsopy.utils.utils import extract_code_from_key
 
 
 def input_psrtype() -> str:

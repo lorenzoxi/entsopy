@@ -1,7 +1,7 @@
 import json
 from rich.prompt import Prompt
-from components.table import create_table
-from const import DIRS
+from entsopy.components.table import create_table
+from entsopy.utils.const import *
 from rich import print
 
 

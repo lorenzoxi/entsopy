@@ -1,7 +1,8 @@
 import logging
+from entsopy.utils.const import *
 
 logging.basicConfig(
-    filename="./entsopy/data/logs/std.log",
+    filename=DIRS["log"],
     format="[%(asctime)s] %(message)s",
     filemode="a+",
     force=True,

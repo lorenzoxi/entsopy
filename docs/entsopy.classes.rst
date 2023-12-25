@@ -19,6 +19,7 @@ classes.httpsclient module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 classes.request module
 ------------------------------
@@ -27,6 +28,7 @@ classes.request module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 classes.response module
 -------------------------------
@@ -35,6 +37,7 @@ classes.response module
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 
 
 Module contents
 ---------------
@@ -43,3 +46,4 @@ Module contents
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members: 

@@ -1,7 +1,7 @@
 from rich.table import Table
 from rich import print
-from const import DIRS
-from components.panels.fail import panel_fail
+from entsopy.utils.const import *
+from entsopy.components.panels.fail import panel_fail
 
 
 def logtable(

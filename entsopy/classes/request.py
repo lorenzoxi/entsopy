@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from classes.article import Article
+from entsopy.classes.article import Article
 
 
 @dataclass
