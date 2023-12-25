@@ -10,10 +10,10 @@ def logtable(
     name = DIRS[f"{filename}"]
     rows = open(name, "r").readlines()
 
-    if len(rows) == 0:
+    if len(rows) <= 0:
         panel_fail(
             "No logs found...",
-            f"Please make sure you have downloaded some data. {name}",
+            f"Please make sure you have downloaded some data.",
         )
         return None
 

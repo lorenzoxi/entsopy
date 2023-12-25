@@ -191,3 +191,5 @@ data/old/
 ./docs/Makefile
 
 .vscode
+
+*test.py

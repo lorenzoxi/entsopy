@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-import re
 import sys
 from dateutil.relativedelta import relativedelta, SU
 from entsopy.utils.date import count_weeks, get_week_boundrais

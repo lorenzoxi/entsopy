@@ -1,4 +1,5 @@
 import os
+from typing import Annotated
 import typer
 from entsopy.components.panels.fail import panel_fail
 from entsopy.components.panels.success import panel_success
@@ -27,6 +28,11 @@ app = typer.Typer(
 @app.command(help="Start Entsopy App")
 def start():
     try:
+        env_file_path = ".env"
+        if not os.path.exists(env_file_path):
+            with open(env_file_path, "w") as file:
+                file.write("# .env file created")
+
         dotenv_file = dotenv.find_dotenv()
         dotenv.load_dotenv(dotenv_file)
 
@@ -65,9 +71,14 @@ def start():
 
 @app.command(
     "reset",
-    help="Reset the security token, target download directory or clear the log file.",
+    help="Reset the security token, target download directory or clear the log file. Args aviable: security-token, download-dir, log, all.",
 )
-def reset(command: str = ""):
+def reset(
+    command: Annotated[
+        str,
+        typer.Argument(help="The name of reset action to perform."),
+    ] = "",
+):
     if command == "security-token" or command == "all":
         input_security_token()
         panel_success("Security token successfully replaced and log file cleared.")
@@ -81,12 +92,21 @@ def reset(command: str = ""):
         panel_fail("Command not recognized. Type reset --help for more info.")
 
 
-@app.command("log", help="Show logs of the app")
-def log(command: str):
+@app.command(
+    "log",
+    help="Manage logs. Args aviable: show, clear.",
+    short_help="Show logs of the app",
+)
+def log(
+    command: Annotated[
+        str,
+        typer.Argument(help="The name of thea action to perform related to logs."),
+    ] = "show",
+):
     if command == "clear":
         open(DIRS["log"], "w").close()
         panel_success("Log file cleared")
-    elif command == "show":
+    else:
         logtable("log")
 
 
