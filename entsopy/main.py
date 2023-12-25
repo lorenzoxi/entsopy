@@ -25,7 +25,7 @@ app = typer.Typer(
 )
 
 
-@app.command(help="Start Entsopy App")
+@app.command(help="Start Entsopy Cli app.")
 def start():
     try:
         env_file_path = ".env"
@@ -71,7 +71,7 @@ def start():
 
 @app.command(
     "reset",
-    help="Reset the security token, target download directory or clear the log file. Args aviable: security-token, download-dir, log, all.",
+    help="Reset the security token, target download directory or clear the log file.\nArgs aviable: security-token, download-dir, log, all.",
 )
 def reset(
     command: Annotated[
@@ -95,7 +95,6 @@ def reset(
 @app.command(
     "log",
     help="Manage logs. Args aviable: show, clear.",
-    short_help="Show logs of the app",
 )
 def log(
     command: Annotated[
