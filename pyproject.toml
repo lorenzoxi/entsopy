@@ -22,3 +22,12 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 entsopy = "entsopy.main:app"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["entsopy"]
+
+[tool.setuptools.package-data]
+data = ["*.json"]
