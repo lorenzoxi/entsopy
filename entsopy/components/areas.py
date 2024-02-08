@@ -5,6 +5,7 @@ from entsopy.components.table import create_table
 from rich import print
 import json
 from rich.prompt import Prompt
+from importlib import resources
 
 
 def input_areas(area: str) -> list[Any]:
@@ -24,16 +25,16 @@ def input_areas(area: str) -> list[Any]:
     areas = []
 
     if area == "CTA":
-        f = open(DIRS["areas_control_area"], "r")
+        f = resources.open_text("entsopy.data.areas", "controlArea.json")
         element = "control area"
     elif area == "BZN":
-        f = open(DIRS["areas_bidding_zone"], "r")
+        f = resources.open_text("entsopy.data.areas", "biddingZone.json")
         element = "bidding zone"
     elif area == "BZNS":
-        f = open(DIRS["areas_border_bidding_zone"], "r")
+        f = resources.open_text("entsopy.data.areas", "borderBiddingZone.json")
         element = "border bidding zone"
     elif area == "MBAS":
-        f = open(DIRS["areas_border_market_balancing_area"], "r")
+        f = resources.open_text("entsopy.data.areas", "borderMarketBalancingArea.json")
         element = "border market balance area"
 
     areas = json.load(f)

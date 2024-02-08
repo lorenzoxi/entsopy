@@ -5,7 +5,7 @@ from rich import print
 import json
 from rich import print
 from entsopy.utils.utils import extract_code_from_key
-
+from importlib import resources
 
 def input_market_product(is_standard: bool = True) -> str:
     """
@@ -24,7 +24,8 @@ def input_market_product(is_standard: bool = True) -> str:
         element = "Standard Market Product"
     else:
         element = "Original Market Product"
-    data = json.load(open(DIRS["type_market_product"], "r"))
+        
+    data = json.load(resources.open_text("entsopy.data.types", "market_product.json"))
 
     table = create_table(
         [f"{element.capitalize()}", "Code" "Key"],

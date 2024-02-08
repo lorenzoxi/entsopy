@@ -4,7 +4,7 @@ from entsopy.components.table import create_table
 from rich import print
 import json
 from entsopy.utils.utils import extract_code_from_key
-
+from importlib import resources
 
 def input_docstatus() -> str:
     """
@@ -14,7 +14,7 @@ def input_docstatus() -> str:
         str: The code of the selected document status.
     """
     element = "DocStatus"
-    data = json.load(open(DIRS["type_docstatus"], "r"))
+    data = json.load(resources.open_text("entsopy.data.types", "docstatus.json"))    
 
     table = create_table(
         [f"{element}", "Code", "Key"],

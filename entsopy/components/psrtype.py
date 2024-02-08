@@ -4,7 +4,7 @@ import json
 from rich import print
 from entsopy.utils.const import *
 from entsopy.utils.utils import extract_code_from_key
-
+from importlib import resources
 
 def input_psrtype() -> str:
     """
@@ -15,7 +15,7 @@ def input_psrtype() -> str:
     """
 
     element = "PsrType"
-    data = json.load(DIRS["type_psrtypes"], "r")
+    data = json.load(resources.open_text("entsopy.data.types", "psrtypes.json"))
 
     table = create_table(
         [f"{element}", "Code", "Key"],

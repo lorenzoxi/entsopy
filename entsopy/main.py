@@ -16,6 +16,7 @@ from entsopy.utils.utils import is_debug_active
 from entsopy.logger.logger import LOGGER
 from entsopy.classes.httpsclient import HttpsClient
 import traceback
+import configparser
 
 """ Main module of the app. """
 
@@ -25,39 +26,65 @@ app = typer.Typer(
 )
 
 
-@app.command(help="Start Entsopy Cli app.")
+@app.command(help="Start Entsopy App")
 def start():
     try:
-        env_file_path = ".env"
-        if not os.path.exists(env_file_path):
-            with open(env_file_path, "w") as file:
-                file.write("# .env file created")
+        
+        package_directory = os.path.dirname(__file__)
+        config_file_path = f"{package_directory}/conf.ini"
 
-        dotenv_file = dotenv.find_dotenv()
-        dotenv.load_dotenv(dotenv_file)
+        config = configparser.ConfigParser()
+        config.read(config_file_path)
+        
+        #check if conf.ini file exists
+        if not os.path.exists(config_file_path):
+            with open(config_file_path, "w") as file:
+                file.write("# conf.ini file created")
+        
+        config = configparser.ConfigParser()
+        config.read(config_file_path)
+        
+        # check if conf.ini file has the required sections   
+        if config.has_section('configuration') == False:
+            # create the configuration section
+            config.add_section('configuration')
+            with open(config_file_path, 'w') as configfile:
+                config.write(configfile)
 
-        token = os.environ["SECURITY_TOKEN"] if "SECURITY_TOKEN" in os.environ else None
-        download_dir = (
-            os.environ["DOWNLOAD_DIR"] if "DOWNLOAD_DIR" in os.environ else None
-        )
+
+        # check if conf.ini file has the required "security_token" and "download_dir" keys
+        token = None
+        if config.has_option('configuration', 'security_token'):
+            token = config.get('configuration', 'security_token')
+
+        download_dir = None
+        if config.has_option('configuration', 'download_dir'):
+            download_dir = config.get('configuration', 'download_dir')
+
 
         if token is None:
             token = input_security_token()
-            os.environ["SECURITY_TOKEN"] = f"${token}"
-            dotenv.set_key(dotenv_file, "SECURITY_TOKEN", os.environ["SECURITY_TOKEN"])
+            # save token to conf.ini file
+            config.set('configuration', 'security_token', token)
+            
 
         if download_dir is None:
             download_dir = input_download_directory()
-            os.environ["DOWNLOAD_DIR"] = f"{download_dir}"
-            dotenv.set_key(dotenv_file, "DOWNLOAD_DIR", os.environ["DOWNLOAD_DIR"])
-
+            # save download_dir to conf.ini file
+            config.set('configuration', 'download_dir', download_dir)
+            
+        with open(config_file_path, 'w') as configfile:
+            config.write(configfile)
+            
         client = HttpsClient(token)
 
         welcome_panel()
 
         domain = input_domain()
-
+        
         res = home(client=client, domain=domain, download_dir=download_dir)
+        
+        print (f"res: {res}")
 
         if res:
             panel_success(file_name=res)
@@ -65,13 +92,13 @@ def start():
             panel_fail()
 
     except Exception as e:
-        panel_fail("Error!", f"{e}.")
+        panel_fail("Error!", f"{e}\n{traceback.format_exc()}.")
         LOGGER.info(f"ERROR: {e}.\nTraceback: {traceback.format_exc()}")
 
 
 @app.command(
     "reset",
-    help="Reset the security token, target download directory or clear the log file.\nArgs aviable: security-token, download-dir, log, all.",
+    help="Reset the security token, target download directory or clear the log file. Args aviable: security-token, download-dir, log, all.",
 )
 def reset(
     command: Annotated[
@@ -95,6 +122,7 @@ def reset(
 @app.command(
     "log",
     help="Manage logs. Args aviable: show, clear.",
+    short_help="Show logs of the app",
 )
 def log(
     command: Annotated[

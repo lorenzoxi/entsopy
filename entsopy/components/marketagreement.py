@@ -5,7 +5,7 @@ from rich import print
 import json
 from rich import print
 from entsopy.utils.utils import extract_code_from_key
-
+from importlib import resources
 
 def input_market_agreement(is_type: bool = False) -> str:
     """
@@ -20,10 +20,10 @@ def input_market_agreement(is_type: bool = False) -> str:
     element = ""
     data = []
     if is_type:
-        f = open(DIRS["type_market_agreement_type"], "r")
+        f = resources.open_text("entsopy.data.types", "market_agreement_type.json")
         element = "Type Market Agreement"
     else:
-        f = open(DIRS["type_market_agreement_contract"], "r")
+        f = resources.open_text("entsopy.data.types", "market_agreement_contract.json")
         element = "Contract Market Agreement"
     data = json.load(f)
 

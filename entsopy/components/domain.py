@@ -3,6 +3,8 @@ from rich.prompt import Prompt
 from entsopy.components.table import create_table
 from entsopy.utils.const import *
 from rich import print
+from importlib import resources
+import os
 
 
 def input_domain() -> str:
@@ -14,7 +16,8 @@ def input_domain() -> str:
     """
 
     element = "domain"
-    data = json.load(open(DIRS["type_domains"], "r"))
+    data = []
+    data = json.load(resources.open_text("entsopy.data.types", "domains.json"))
 
     table = create_table(
         ["Domain", "Code", "Key to press"],

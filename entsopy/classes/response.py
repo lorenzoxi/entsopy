@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from lxml import etree
 from entsopy.utils.const import *
 from entsopy.utils.utils import *
+from importlib import resources
 
 
 @dataclass
@@ -112,10 +113,9 @@ class ResponseData:
 
     def fill_missing_psr_types(
         self,
-        all_psr_types: list = (
-            psr["code"] for psr in (json.load(open(DIRS["type_psrtypes"], "r")))
-        ),
-    ):
+        all_psr_types: list = json.load(resources.open_text("entsopy.data.types", "psrtypes.json"))
+    ):    
+                
         psr_type = self.df["mkt.psrType"].unique()
 
         missing_psr_types = [psr for psr in all_psr_types if psr not in psr_type]

@@ -3,7 +3,7 @@ from entsopy.utils.const import *
 from entsopy.components.table import create_table
 from rich import print
 import json
-
+from importlib import resources
 
 def input_direction() -> str:
     """
@@ -13,7 +13,7 @@ def input_direction() -> str:
         str: The selected direction.
     """
     element = "Direction"
-    data = json.load(open(DIRS["type_directions"], "r"))
+    data = json.load(resources.open_text("entsopy.data.types", "directions.json"))
 
     table = create_table(
         [f"{element}", "Code", "Key"],

@@ -9,10 +9,9 @@ from entsopy.components.direction import input_direction
 from rich import print
 import json
 from entsopy.components.marketproduct import input_market_product
-
 from entsopy.components.psrtype import input_psrtype
 from entsopy.components.registeredresource import input_registeredsource
-
+from importlib import resources
 
 def ui_article(article: Article):
     """
@@ -25,8 +24,7 @@ def ui_article(article: Article):
         Tuple: A tuple containing the values for areas, time_interval, contract_market_agreement,
         direction, auction_type, docstatus, psrtype, market_product, and registered_resource.
     """
-
-    attributes = json.load(open(DIRS["type_attributes"], "r"))
+    attributes = json.load(resources.open_text("entsopy.data.types", "attributes.json"))
     attributes.sort(key=lambda x: x["priority"], reverse=True)
 
     areas = None

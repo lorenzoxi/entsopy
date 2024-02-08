@@ -4,6 +4,7 @@ from entsopy.components.table import create_table
 from rich import print
 import json
 from rich.prompt import Prompt
+from importlib import resources
 
 
 def extract_article(articles, article_to_extract: str) -> Article:
@@ -25,17 +26,17 @@ def input_article(domain: str) -> Article:
 
     element = "article"
     if domain == "1":
-        f = open(DIRS["articles_load"], "r")
+        f = resources.open_text("entsopy.data.articles", "load.articles.json")
     elif domain == "2":
-        f = open(DIRS["articles_ncm"], "r")
+        f = resources.open_text("entsopy.data.articles", "ncm.articles.json")
     elif domain == "3":
-        f = open(DIRS["articles_transmission"], "r")
+        f = resources.open_text("entsopy.data.articles", "transmission.articles.json")
     elif domain == "4":
-        f = open(DIRS["articles_generation"], "r")
+        f = resources.open_text("entsopy.data.articles", "generation.articles.json")
     elif domain == "5":
-        f = open(DIRS["articles_balancing"], "r")
+        f = resources.open_text("entsopy.data.articles", "balancing.articles.json")
     elif domain == "6":
-        f = open(DIRS["articles_outages"], "r")
+        f = resources.open_text("entsopy.data.articles", "outages.articles.json")
     data = json.load(f)
 
     table = create_table(

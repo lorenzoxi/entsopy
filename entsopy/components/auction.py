@@ -4,15 +4,16 @@ from rich import print
 import json
 from rich.prompt import Prompt
 from entsopy.utils.utils import extract_code_from_key
+from importlib import resources
 
 
 def input_auction_type(is_category: bool = False) -> str:
     element = "Auction Type"
     if is_category:
-        f = open(DIRS["type_auctions_type"], "r")
+        f = resources.open_text("entsopy.data.types", "auctions_type.json")
         element = "Auction Category"
     else:
-        f = open(DIRS["type_auctions_category"], "r")
+        f = resources.open_text("entsopy.data.types", "auctions_category.json")
         element = "Auction Type"
 
     data = json.load(f)

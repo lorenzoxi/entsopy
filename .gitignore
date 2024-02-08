@@ -193,3 +193,5 @@ data/old/
 .vscode
 
 *test.py
+
+*.ini

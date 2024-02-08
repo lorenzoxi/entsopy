@@ -19,7 +19,7 @@ def panel_fail(
 
     print(
         Panel(
-            f"[b][red]{message}...[/red][/b]\nError: {error_description}.",
+            f"[b][red]{message}...[/red][/b]\nError: {error_description}.\n",
             title="[b][red]FATAL ERROR![/red][/b]",
             highlight=True,
             title_align="center",
