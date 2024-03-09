@@ -7,7 +7,6 @@ from entsopy.components.welcome import welcome_panel
 from entsopy.components.domain import input_domain
 from entsopy.components.home import home
 from entsopy.components.welcome import welcome_panel
-import dotenv
 from entsopy.components.securitytoken import input_security_token
 from entsopy.components.logging.logtable import logtable
 from entsopy.utils.const import *
@@ -84,8 +83,6 @@ def start():
         
         res = home(client=client, domain=domain, download_dir=download_dir)
         
-        print (f"res: {res}")
-
         if res:
             panel_success(file_name=res)
         else:

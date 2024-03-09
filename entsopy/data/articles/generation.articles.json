@@ -8,6 +8,7 @@
     "time_type": "yyyy",
     "range_limit": 365,
     "domain": "generation",
+    "is_request_week_based": false,
     "attributes": {
       "DocumentType": "A68",
       "DocStatus": -1,
@@ -47,6 +48,7 @@
     "time_type": "yyyy",
     "range_limit": 365,
     "domain": "generation",
+    "is_request_week_based": false,
     "attributes": {
       "DocumentType": "A71",
       "DocStatus": -1,
@@ -86,6 +88,7 @@
     "time_type": "yyyy-mm-dd",
     "range_limit": 1,
     "domain": "generation",
+    "is_request_week_based": false,
     "attributes": {
       "DocumentType": "A71",
       "DocStatus": -1,
@@ -125,6 +128,7 @@
     "time_type": "yyyy-mm-dd",
     "range_limit": 365,
     "domain": "generation",
+    "is_request_week_based": false,
     "attributes": {
       "DocumentType": "A69",
       "DocStatus": -1,
@@ -164,6 +168,7 @@
     "time_type": "yyyy-mm-dd",
     "range_limit": 1,
     "domain": "generation",
+    "is_request_week_based": false,
     "attributes": {
       "DocumentType": "A73",
       "DocStatus": -1,
@@ -201,8 +206,9 @@
     "key": "6",
     "area": "BZN",
     "time_type": "yyyy-mm-dd",
-    "range_limit": 365,
+    "range_limit": 1,
     "domain": "generation",
+    "is_request_week_based": false,
     "attributes": {
       "DocumentType": "A75",
       "DocStatus": -1,
@@ -242,6 +248,7 @@
     "time_type": "yyyy",
     "range_limit": 365,
     "domain": "generation",
+    "is_request_week_based": true,
     "attributes": {
       "DocumentType": "A72",
       "DocStatus": -1,

@@ -8,6 +8,7 @@
     "time_type": "yyyy-mm-dd",
     "range_limit": 365,
     "domain": "load",
+    "is_request_week_based": false,
     "attributes": {
       "DocumentType": "A65",
       "DocStatus": -1,
@@ -39,7 +40,7 @@
     }
   },
   {
-    "name": "Day-Ahead Total Load Forecast",
+    "name": "Total Load Forecast - Day-Ahead",
     "code": "6.1.B",
     "is_available": true,
     "key": "2",
@@ -47,6 +48,7 @@
     "time_type": "yyyy-mm-dd",
     "range_limit": 365,
     "domain": "load",
+    "is_request_week_based": false,
     "attributes": {
       "DocumentType": "A65",
       "DocStatus": -1,
@@ -86,6 +88,7 @@
     "time_type": "yyyy-W",
     "range_limit": 365,
     "domain": "load",
+    "is_request_week_based": true,
     "attributes": {
       "DocumentType": "A65",
       "DocStatus": -1,
@@ -125,6 +128,7 @@
     "time_type": "yyyy-mm",
     "range_limit": 365,
     "domain": "load",
+    "is_request_week_based": true,
     "attributes": {
       "DocumentType": "A65",
       "DocStatus": -1,
@@ -164,6 +168,7 @@
     "time_type": "yyyy",
     "range_limit": 365,
     "domain": "load",
+    "is_request_week_based": true,
     "attributes": {
       "DocumentType": "A65",
       "DocStatus": -1,
@@ -195,7 +200,7 @@
     }
   },
   {
-    "name": "Year-ahead Forecast Margin",
+    "name": "Forecast Margin - Year-ahead",
     "code": "8.1",
     "is_available": true,
     "key": "6",
@@ -203,6 +208,7 @@
     "time_type": "yyyy",
     "range_limit": 365,
     "domain": "load",
+    "is_request_week_based": false,
     "attributes":{
       "DocumentType": "A70",
       "DocStatus": -1,

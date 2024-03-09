@@ -44,12 +44,13 @@ def home(client: HttpsClient, domain: str, download_dir: str) -> str:
     )
     print("[i]Sending the request...[/i]")
 
-    data = client.multiple_requests(request=request)
+    print("article.is_request_week_based ", article.is_request_week_based)
+    data = client.multiple_requests(request=request, is_request_week_based=article.is_request_week_based)
 
     print("[i]Processing the response...[/i]")
 
     res = [
-        (ResponseData(content, article_code=request.article.code)).df
+        (ResponseData(content, article_code=request.article.code, time_type=request.article.time_type)).df
         for content in data
     ]
 

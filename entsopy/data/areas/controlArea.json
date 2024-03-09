@@ -1,14 +1,314 @@
 [
   {
-    "name": "Italy (IT)",
-    "code": "10YIT-GRTN-----B",
-    "key": "1",
-    "is_available": true
+      "code": "10Y1001A1001A016",
+      "key": "1",
+      "name": "Northern Ireland Electricity (NIE)",
+      "is_available": true
   },
   {
-    "name": "Slovenia (SLO)",
-    "code": "10YSI-ELES-----O",
-    "key": "2",
-    "is_available": true
+      "code": "10Y1001A1001A39I",
+      "key": "2",
+      "name": "Estonia (EE)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001A1001A49F",
+      "key": "3",
+      "name": "Russia (RU)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001A1001A50U",
+      "key": "4",
+      "name": "Russia - Kaliningrad (RU-KGD)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001A1001A51S",
+      "key": "5",
+      "name": "Belarus (BY)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001A1001A796",
+      "key": "6",
+      "name": "Denmark (DK)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001A1001A869",
+      "key": "7",
+      "name": "Ukraine - Dobrotvir TPP (UA-DobTPP)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001A1001A93C",
+      "key": "8",
+      "name": "Malta (MT)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001A1001A990",
+      "key": "9",
+      "name": "Moldova (MD)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001A1001B004",
+      "key": "10",
+      "name": "Armenia (AM)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001A1001B012",
+      "key": "11",
+      "name": "Georgia (GE)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001A1001B05V",
+      "key": "12",
+      "name": "Azerbaijan (AZ)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001C--000182",
+      "key": "13",
+      "name": "Ukraine - IPS (UA-IPS)",
+      "is_available": true
+  },
+  {
+      "code": "10Y1001C--00100H",
+      "key": "14",
+      "name": "Kosovo (XK)",
+      "is_available": true
+  },
+  {
+      "code": "10YAL-KESH-----5",
+      "key": "15",
+      "name": "Albania (AL)",
+      "is_available": true
+  },
+  {
+      "code": "10YAT-APG------L",
+      "key": "16",
+      "name": "Austria (AT)",
+      "is_available": true
+  },
+  {
+      "code": "10YBA-JPCC-----D",
+      "key": "17",
+      "name": "Bosnia and Herzegovina (BA)",
+      "is_available": true
+  },
+  {
+      "code": "10YBE----------2",
+      "key": "18",
+      "name": "Belgium (BE)",
+      "is_available": true
+  },
+  {
+      "code": "10YCA-BULGARIA-R",
+      "key": "19",
+      "name": "Bulgaria (BG)",
+      "is_available": true
+  },
+  {
+      "code": "10YCH-SWISSGRIDZ",
+      "key": "20",
+      "name": "Switzerland (CH)",
+      "is_available": true
+  },
+  {
+      "code": "10YCS-CG-TSO---S",
+      "key": "21",
+      "name": "Montenegro (ME)",
+      "is_available": true
+  },
+  {
+      "code": "10YCS-SERBIATSOV",
+      "key": "22",
+      "name": "Serbia (RS)",
+      "is_available": true
+  },
+  {
+      "code": "10YCY-1001A0003J",
+      "key": "23",
+      "name": "Cyprus (CY)",
+      "is_available": true
+  },
+  {
+      "code": "10YCZ-CEPS-----N",
+      "key": "24",
+      "name": "Czech Republic (CZ)",
+      "is_available": true
+  },
+  {
+      "code": "10YDE-ENBW-----N",
+      "key": "25",
+      "name": "Germany - TransnetBW (DE(TransnetBW))",
+      "is_available": true
+  },
+  {
+      "code": "10YDE-EON------1",
+      "key": "26",
+      "name": "Germany - TenneT GER (DE(TenneT GER))",
+      "is_available": true
+  },
+  {
+      "code": "10YDE-RWENET---I",
+      "key": "27",
+      "name": "Germany - Amprion (DE(Amprion))",
+      "is_available": true
+  },
+  {
+      "code": "10YDE-VE-------2",
+      "key": "28",
+      "name": "Germany - 50Hertz (DE(50Hertz))",
+      "is_available": true
+  },
+  {
+      "code": "10YDOM-1001A082L",
+      "key": "29",
+      "name": "Poland - Czech Republic (PL-CZ)",
+      "is_available": true
+  },
+  {
+      "code": "10YES-REE------0",
+      "key": "30",
+      "name": "Spain (ES)",
+      "is_available": true
+  },
+  {
+      "code": "10YFI-1--------U",
+      "key": "31",
+      "name": "Finland (FI)",
+      "is_available": true
+  },
+  {
+      "code": "10YFR-RTE------C",
+      "key": "32",
+      "name": "France (FR)",
+      "is_available": true
+  },
+  {
+      "code": "10YGB----------A",
+      "key": "33",
+      "name": "United Kingdom - National Grid (National Grid)",
+      "is_available": true
+  },
+  {
+      "code": "10YGR-HTSO-----Y",
+      "key": "34",
+      "name": "Greece (GR)",
+      "is_available": true
+  },
+  {
+      "code": "10YHR-HEP------M",
+      "key": "35",
+      "name": "Croatia (HR)",
+      "is_available": true
+  },
+  {
+      "code": "10YHU-MAVIR----U",
+      "key": "36",
+      "name": "Hungary (HU)",
+      "is_available": true
+  },
+  {
+      "code": "10YIE-1001A00010",
+      "key": "37",
+      "name": "Ireland (IE)",
+      "is_available": true
+  },
+  {
+      "code": "10YIT-GRTN-----B",
+      "key": "38",
+      "name": "Italy (IT)",
+      "is_available": true
+  },
+  {
+      "code": "10YLT-1001A0008Q",
+      "key": "39",
+      "name": "Lithuania (LT)",
+      "is_available": true
+  },
+  {
+      "code": "10YLU-CEGEDEL-NQ",
+      "key": "40",
+      "name": "Luxembourg (LU)",
+      "is_available": true
+  },
+  {
+      "code": "10YLV-1001A00074",
+      "key": "41",
+      "name": "Latvia (LV)",
+      "is_available": true
+  },
+  {
+      "code": "10YMK-MEPSO----8",
+      "key": "42",
+      "name": "North Macedonia (MK)",
+      "is_available": true
+  },
+  {
+      "code": "10YNL----------L",
+      "key": "43",
+      "name": "Netherlands (NL)",
+      "is_available": true
+  },
+  {
+      "code": "10YNO-0--------C",
+      "key": "44",
+      "name": "Norway (NO)",
+      "is_available": true
+  },
+  {
+      "code": "10YPL-AREA-----S",
+      "key": "45",
+      "name": "Poland (PL)",
+      "is_available": true
+  },
+  {
+      "code": "10YPT-REN------W",
+      "key": "46",
+      "name": "Portugal (PT)",
+      "is_available": true
+  },
+  {
+      "code": "10YRO-TEL------P",
+      "key": "47",
+      "name": "Romania (RO)",
+      "is_available": true
+  },
+  {
+      "code": "10YSE-1--------K",
+      "key": "48",
+      "name": "Sweden (SE)",
+      "is_available": true
+  },
+  {
+      "code": "10YSI-ELES-----O",
+      "key": "49",
+      "name": "Slovenia (SI)",
+      "is_available": true
+  },
+  {
+      "code": "10YSK-SEPS-----K",
+      "key": "50",
+      "name": "Slovakia (SK)",
+      "is_available": true
+  },
+  {
+      "code": "10YTR-TEIAS----W",
+      "key": "51",
+      "name": "Turkey (TR)",
+      "is_available": true
+  },
+  {
+      "code": "10YUA-WEPS-----0",
+      "key": "52",
+      "name": "Ukraine - BEI (UA-BEI)",
+      "is_available": true
   }
 ]

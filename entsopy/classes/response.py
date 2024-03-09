@@ -31,7 +31,7 @@ class ResponseData:
         fill_missing_psr_types(all_psr_types: list = []): Fills missing PSR types in the data.
     """
 
-    def __init__(self, content: str, article_code: str):
+    def __init__(self, content: str, article_code: str, time_type: str = ""):
         content = content
         self.root = etree.XML(content)
         self.article_code = article_code
@@ -51,57 +51,76 @@ class ResponseData:
             ],
         )
         self.resolution = self.root.findtext(".//ns:resolution", namespaces=self.nsmap)
-        self.date_start = datetime.strptime(
-            document_res["doc.timeInterval.start"], "%Y-%m-%dT%H:%MZ"
-        )
-        self.date_end = datetime.strptime(
-            document_res["doc.timeInterval.end"], "%Y-%m-%dT%H:%MZ"
-        )
-        timeseries = self.root.findall(
-            f".//{self.ns_name}:TimeSeries", namespaces=self.nsmap
-        )
-        period = self.root.find(
-            f".//{self.ns_name}:Period",
-            namespaces=self.nsmap,
-        )
-
-        max_no_points = max_number_of_points(period, self.resolution, self.nsmap)
-
-        for tms in timeseries:
-            row = {}
-
-            data_tms = extract_elements_from_node(
-                tms, to_exclude=["Point", "position", "quantity"], prefix="tms"
+        
+        reason = self.root.findtext(".//ns:Reason", namespaces=self.nsmap)
+        
+        if (reason is None) or (reason == ""):      ## if there is no reason, then it is a valid response, #TODO: store the reasons somewhere
+            self.date_start = datetime.strptime(
+                document_res["doc.timeInterval.start"], "%Y-%m-%dT%H:%MZ"
             )
+            self.date_end = datetime.strptime(
+                document_res["doc.timeInterval.end"], "%Y-%m-%dT%H:%MZ"
+            )
+                    
+            timeseries = self.root.findall(
+                f".//{self.ns_name}:TimeSeries", namespaces=self.nsmap
+            )
+            period = self.root.find(
+                f".//{self.ns_name}:Period",
+                namespaces=self.nsmap,
+            )
+            
 
-            for i in range(1, max_no_points + 1):
-                data_point = {}
+            max_no_points = max_number_of_points(period, self.resolution, self.nsmap)
 
-                data_timing = get_time_data(
-                    date_start=self.date_start,
-                    date_end=self.date_start,
-                    resolution=self.resolution,
-                    position=i,
+            for tms in timeseries:
+                row = {}
+                
+
+                data_tms = extract_elements_from_node(
+                    tms, to_exclude=["Point", "position", "quantity"], prefix="tms"
                 )
 
-                data_point["position"] = i
-                data_point["quantity"] = get_point_quantity(tms, i, self.nsmap)
-                row = {
-                    **document_res,
-                    **data_tms,
-                    **data_timing,
-                    **data_point,
-                }
-                data.append(row)
+                for i in range(1, max_no_points+1):
+                    data_point = {}
 
-        self.data = data
-        self.df = pd.DataFrame(self.data)
-        self.max_no_points = max_no_points
+                    if (time_type == "yyyy-mm" or time_type == "yyyy-W" or time_type == "yyyy-mm-dd" or article_code == "16.1.D"):
+                        date_start = datetime.strptime(data_tms["tms.timeInterval.start"], "%Y-%m-%dT%H:%MZ")
+                        date_end = datetime.strptime(data_tms["tms.timeInterval.end"], "%Y-%m-%dT%H:%MZ")
+                        
+                    if ( time_type == "yyyy" and article_code != "16.1.D"):
+                        date_start = self.date_start
+                        date_end = self.date_start
 
-        if self.article_code == "14.1.A" or self.article_code == "16.1.B&C":
-            self.fill_missing_psr_types()
-        elif self.article_code == "14.1.D":
-            self.fill_missing_psr_types(all_psr_types=["B16", "B18", "B19"])
+                    
+                    data_timing = get_time_data(
+                        date_start=date_start,
+                        date_end=date_end,
+                        resolution=self.resolution,
+                        position=i,
+                        time_type=time_type,
+                    )
+
+                    data_point["position"] = i      
+                    data_point["quantity"] = get_point_quantity(tms, i, self.nsmap)
+                    row = {
+                        **document_res,
+                        **data_tms,
+                        **data_timing,
+                        **data_point,
+                    }
+                    data.append(row)
+
+            self.data = data
+            self.df = pd.DataFrame(self.data)
+            self.max_no_points = max_no_points
+
+            if self.article_code == "14.1.A" or self.article_code == "16.1.B&C":
+                self.fill_missing_psr_types()
+            elif self.article_code == "14.1.D":
+                self.fill_missing_psr_types(all_psr_types=[{"code":"B16"}, {"code":"B18"}, {"code":"B19"}])
+        else:
+            self.df = pd.DataFrame()
 
     def save_to_csv(self, file_name: str, path: str = ""):
         timestamp = (datetime.now()).strftime("%Y%m%dT%H%M%S")
@@ -115,17 +134,17 @@ class ResponseData:
         self,
         all_psr_types: list = json.load(resources.open_text("entsopy.data.types", "psrtypes.json"))
     ):    
-                
-        psr_type = self.df["mkt.psrType"].unique()
-
+        psr_type = self.df["tms.MktPSRType.psrType"].unique()
+        
+        all_psr_types = [psr["code"] for psr in all_psr_types]
         missing_psr_types = [psr for psr in all_psr_types if psr not in psr_type]
-
+        
         for i in range(1, self.max_no_points + 1):
             for missing_psr_type in missing_psr_types:
-                new_row = self.df[:1]
+                new_row = self.df[:1].copy()
                 new_row["quantity"] = "na"
                 new_row["position"] = i
-                new_row["mkt.psrType"] = missing_psr_type
+                new_row["tms.MktPSRType.psrType"] = missing_psr_type
                 self.df = pd.concat([self.df, new_row])
 
                 data_time = get_time_data(
@@ -139,6 +158,6 @@ class ResponseData:
                     new_row[key] = value
 
         if self.article_code == "14.1.A" or self.article_code == "16.1.B&C":
-            self.df = self.df.sort_values(by=["mkt.psrType"])
+            self.df = self.df.sort_values(by=["tms.MktPSRType.psrType"])
 
         self.df = self.df.reset_index(drop=True)

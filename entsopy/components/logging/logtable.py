@@ -28,9 +28,12 @@ def logtable(
         table.add_column("API Call", justify="left")
 
         for row in rows:
-            date, api_call = row.split("] ")
+            date = row.split("] ")[0] if len(row.split("] ")) > 1 else "No Date"
             date = date.replace("[", "")
-            api_call = api_call.replace("GET: ", "")
+            api_call = row.split("] ")[1] if len(row.split("] ")) > 1 else "No API Call"
+            
+            if (date == "No Date") or (api_call == "No API Call"):
+                continue
             table.add_row(date, api_call)
 
         print(table)

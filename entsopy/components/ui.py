@@ -36,6 +36,7 @@ def ui_article(article: Article):
     psrtype = None
     market_product = None
     registered_resource = None
+    process_type = None
 
     for attribute in attributes:
         attribute = attribute["name"]

@@ -5,7 +5,7 @@ from entsopy.utils.date import *
 
 def input_date(
     time_type: str,
-) -> str:
+) -> tuple:
     """
     Prompts the user to input a start date and an end date with the specified time format.
     Validates that the end date is greater than the start date.
@@ -16,7 +16,7 @@ def input_date(
         time_range (str, optional): The range of time for the dates. Defaults to "".
 
     Returns:
-        str: The calculated dates interval.
+        final_dates: a string with the start and end date in the format "date/date"
     """
 
     time_format = get_format(time_type)
@@ -31,6 +31,7 @@ def input_date(
         time_format = "%Y-%W-%w"
         date_1 = date_1 + "-1"
 
+    date_1_str = date_1
     date_1 = datetime.datetime.strptime(date_1, f"{time_format}")
     date_2 = date_1 - datetime.timedelta(days=1)
 
@@ -48,6 +49,7 @@ def input_date(
             time_format = "%Y-%W-%w"
             date_2 = date_2 + "-0"
 
+        date_2_str = date_2
         date_2 = datetime.datetime.strptime(date_2, f"{time_format}")
 
         if date_1 > date_2:
@@ -55,5 +57,6 @@ def input_date(
                 f"[b red]The end date must be greater than the start date[/b red]. Please insert again the end date."
             )
 
-    dates_interval = calculate_dates_interval(date_1, date_2, time_type)
-    return dates_interval
+    final_dates = f"{date_1_str}/{date_2_str}"
+    
+    return final_dates
