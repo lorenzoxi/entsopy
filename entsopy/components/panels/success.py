@@ -4,7 +4,7 @@ from rich import print
 
 
 def panel_success(
-    message: str = f"File [file_name] sucessfully downloaded", file_name: str = ""
+    message: str = f"File [file_name] sucessfully downloaded", file_path: str = ""
 ) -> None:
     """
     Display a success message with an optional file name.
@@ -17,12 +17,13 @@ def panel_success(
         None
     """
 
-    if file_name != "":
+    if file_path != "":
+        file_name = file_path.split("/")[-1]
         message = message.replace("[file_name]", file_name)
 
     print(
         Panel(
-            f"[b][green]{message}[/green][/b]",
+            f"[b][green]{message}[/green][/b]. File saved in [blue]{file_path}[/blue]",
             highlight=True,
         )
     )

@@ -372,13 +372,13 @@ def get_time_data(
     
     elif resolution == "P7D":
         
-        # go the the first day of the next year of the start date if the start date is not the first day of the year
+        # go the the first day of the next year of the start date if the start date is not the first day of the year
         if(date_start.month == 12 and time_type == "yyyy"):
             date_start = date_start + relativedelta(years=1, month=1, day=1)
         
-        day_start, day_end = get_week_boundrais(date_start, position - 1, time_type=time_type)
+        day_start, day_end = get_week_boundrais(date_start, position, time_type=time_type)
                         
-        mtu_start = get_mtu(prefix="start", date=day_start)
+        mtu_start = get_mtu(prefix="start", date=day_start) 
         mtu_end = get_mtu(prefix="end", date=day_end)
         
     elif resolution == "P1Y":

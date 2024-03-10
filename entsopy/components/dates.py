@@ -1,6 +1,7 @@
 import datetime
 from rich.prompt import Prompt
 from entsopy.utils.date import *
+from rich import print
 
 
 def input_date(
@@ -54,7 +55,7 @@ def input_date(
 
         if date_1 > date_2:
             print(
-                f"[b red]The end date must be greater than the start date[/b red]. Please insert again the end date."
+                f"[b red]The end date must be greater or equal than the start date[/b red]. Please insert again the end date."
             )
 
     final_dates = f"{date_1_str}/{date_2_str}"

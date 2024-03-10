@@ -81,10 +81,10 @@ def start():
 
         domain = input_domain()
         
-        res = home(client=client, domain=domain, download_dir=download_dir)
+        file_path = home(client=client, domain=domain, download_dir=download_dir)
         
-        if res:
-            panel_success(file_name=res)
+        if file_path:
+            panel_success(file_path=file_path)
         else:
             panel_fail()
 

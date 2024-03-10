@@ -44,7 +44,6 @@ def home(client: HttpsClient, domain: str, download_dir: str) -> str:
     )
     print("[i]Sending the request...[/i]")
 
-    print("article.is_request_week_based ", article.is_request_week_based)
     data = client.multiple_requests(request=request, is_request_week_based=article.is_request_week_based)
 
     print("[i]Processing the response...[/i]")
@@ -54,7 +53,7 @@ def home(client: HttpsClient, domain: str, download_dir: str) -> str:
         for content in data
     ]
 
-    print("[i]Saving the response file...[/i]")
+    print("[i]Saving the data...[/i]")
     file_name = concat_and_save_dfs(
         dfs=res,
         file_name=article.domain,

@@ -93,7 +93,6 @@ class HttpsClient:
         #     is_request_start_with_a_week = True if request.article.code == "16.1.D" else False
         #     intervals = split_in_intervals_generation(start_date, end_date, time_type, is_request_start_with_a_week)
         
-        
         intervals = split_to_intervals(start_date, end_date, time_type, is_request_week_based)
         
  

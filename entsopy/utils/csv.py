@@ -26,6 +26,5 @@ def concat_and_save_dfs(
     res = pd.concat(dfs, join="outer").fillna("na")
     timestamp = (datetime.now()).strftime("%Y%m%dT%H%M%S")
     file_saving_name = f"{file_name}-{suffix}-{timestamp}.csv"
-    print(f"{download_dir}/{file_saving_name}")
     res.to_csv(f"{download_dir}/{file_saving_name}", index=True, index_label="id")
-    return file_saving_name
+    return f"{download_dir}/{file_saving_name}"
