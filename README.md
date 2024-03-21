@@ -69,7 +69,7 @@ This project is licensed under the terms of the MIT license.
 
 ``` 0
   @misc{entsopy_tool,
-    author       = {Lorenzo Perinello},
+    author       = {Lorenzo Perinello, Marina Bertolini},
     title        = {entsopy - A tool for downloading data from ENTSO-E platform.},
     year         = {2024},
     howpublished = {\url{https://pypi.org/project/entsopy/}},
