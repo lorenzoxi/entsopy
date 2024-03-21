@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "entsopy"
-version = "0.2.0"
+version = "0.2.1"
 description = "Cli tool for downloading data from ENTSO-E."
 authors = ["Lorenzo Perinello <lorenzo.perinello@studenti.it>"]
 readme = "README.md"
